@@ -34,7 +34,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         title: const Text('Der Beste Snackautomat'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.admin_panel_settings),
+            icon: const Icon(Icons.key),
             onPressed: () {
               _showPasswordDialog();
             },
