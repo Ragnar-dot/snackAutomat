@@ -5,7 +5,7 @@ class StackManager {
   final List<Product> _products;
   final Map<double, int> _coinInventory;
   double _totalRevenue = 0.0;
-  List<String> _transactionHistory = []; // Neu hinzugefügt
+  final List<String> _transactionHistory = []; // Neu hinzugefügt
 
   StackManager({
     required List<Product> initialProducts,
@@ -77,7 +77,7 @@ class StackManager {
     product.quantity += amount;
   }
 
-  // Wechselgeldberechnung bleibt unverändert
+ 
   // ...
 
 

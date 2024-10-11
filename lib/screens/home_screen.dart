@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snackautomat/providers/secure_storage_provider.dart';
@@ -41,7 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       ),
       body: Column(
         children: [
-          DisplayWidget(),
+          const DisplayWidget(),
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.all(8.0),
@@ -107,7 +109,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Navigator.pop(context); // Dialog schließen
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AdminScreen()),
+                    MaterialPageRoute(builder: (context) => const AdminScreen()),
                   );
                 } else {
                   // Passwort überprüfen
@@ -116,7 +118,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     Navigator.pop(context); // Dialog schließen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AdminScreen()),
+                      MaterialPageRoute(builder: (context) => const AdminScreen()),
                     );
                   } else {
                     // Falsches Passwort

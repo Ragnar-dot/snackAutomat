@@ -8,7 +8,7 @@ class ProductWidget extends ConsumerWidget {
   final Product product;
   final Function(String) onProductPurchased;
 
-  ProductWidget({required this.product, required this.onProductPurchased});
+  const ProductWidget({super.key, required this.product, required this.onProductPurchased});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,7 +29,7 @@ class ProductWidget extends ConsumerWidget {
           Text('Coin ${product.price.toStringAsFixed(2)}'),
           Text('Verfügbar: ${product.quantity}'),
           product.quantity < 1
-              ? Text(
+              ? const Text(
                   'Ausverkauft',
                   style: TextStyle(color: Colors.red),
                 )
@@ -53,7 +53,7 @@ class ProductWidget extends ConsumerWidget {
                         onProductPurchased('Wechselgeld: Coin ${changeAmount.toStringAsFixed(2)}');
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Nicht genügend Wechselgeld verfügbar.')),
+                          const SnackBar(content: Text('Nicht genügend Wechselgeld verfügbar.')),
                         );
                       }
                     }
@@ -63,7 +63,7 @@ class ProductWidget extends ConsumerWidget {
                     );
                   }
                 : null,
-            child: Text('Kaufen'),
+            child: const Text('Kaufen'),
           ),
         ],
       ),

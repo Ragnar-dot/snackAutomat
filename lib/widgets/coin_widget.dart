@@ -7,7 +7,7 @@ import '../providers/stack_manager_provider.dart';
 class CoinWidget extends ConsumerWidget {
   final Coin coin;
 
-  CoinWidget({required this.coin});
+  const CoinWidget({super.key, required this.coin});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,7 +20,7 @@ class CoinWidget extends ConsumerWidget {
       },
       child: Container(
         width: 80,
-        margin: EdgeInsets.all(8.0),
+        margin: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Image.asset(

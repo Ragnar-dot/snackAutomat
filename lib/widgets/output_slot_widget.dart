@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class OutputSlotWidget extends StatelessWidget {
   final List<String> outputItems;
 
-  OutputSlotWidget({required this.outputItems});
+  const OutputSlotWidget({super.key, required this.outputItems});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class OutputSlotWidget extends StatelessWidget {
         itemCount: outputItems.length,
         itemBuilder: (context, index) {
           return Container(
-            margin: EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(8.0),
             child: Chip(
               label: Text(outputItems[index]),
             ),

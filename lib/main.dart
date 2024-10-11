@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'screens/home_screen.dart';
 
 void main() {
-  runApp(ProviderScope(child: VendingMachineApp()));
+  runApp(const ProviderScope(child: VendingMachineApp()));
 }
 
 class VendingMachineApp extends StatelessWidget {
+  const VendingMachineApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,6 +17,7 @@ class VendingMachineApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      // ignore: prefer_const_constructors
       home: HomeScreen(),
     );
   }
