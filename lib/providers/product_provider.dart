@@ -126,14 +126,15 @@ final productListProvider = Provider<List<Product>>((ref) {
       price: 1.50,
       quantity: 10,
       image: 'assets/products/Kortoffel Sticks.jpg',
+
     ),
 
     Product(
       id: 16,
-      name: 'Lavazza Cappuccino 0,25 l',
+      name: 'Elephant Prezels',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/Lavazza Cappuccino 0,25 l.jpg',
+      image: 'assets/products/Elephant Prezels.jpg',
     ),
 
 
@@ -144,42 +145,42 @@ final productListProvider = Provider<List<Product>>((ref) {
 
 Product(
       id: 17,
-      name: 'Mandeln',
+      name: 'Ball und Ovidias belgische Schokolade',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/Mandeln.jpg',
+      image: 'assets/products/Ball und Ovidias belgische Schokolade.jpg',
     ),
 
     Product(
       id: 18,
-      name: 'Mr.Brown Caramel Latte 0,25 l',
+      name: 'BeefJerky',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/Mr.Brown Caramel Latte 0,25 l.jpg',
+      image: 'assets/products/BeefJerky.jpg',
     ),
 
         Product(
       id: 19,
-      name: 'NISSIN Soba Bag Japanese Curry',
+      name: 'Celebrations Pop Geschenkbox',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/NISSIN Soba Bag Japanese Curry.jpg',
+      image: 'assets/products/Celebrations Pop Geschenkbox.jpg',
     ),
 
     Product(
       id: 20,
-      name: 'Pea Snacks',
+      name: 'Coca Cola Dose 0,33 l',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/Pea Snacks.jpg',
+      image: 'assets/products/Coca Cola Dose 0,33 l.jpg',
     ),
 
     Product(
       id:  21,
-      name: 'Snickers',
+      name: 'Crunchy Nuts Spicy',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/Snickers.jpg',
+      image: 'assets/products/Crunchy Nuts Spicy.jpg',
     ),
 
 

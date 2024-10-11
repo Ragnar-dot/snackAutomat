@@ -65,7 +65,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
           ),
           OutputSlotWidget(outputItems: outputItems),
-          Container(
+          SizedBox(
             height: 120,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -81,7 +81,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _showPasswordDialog() {
-    TextEditingController _passwordController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     final secureStorage = ref.read(secureStorageProvider);
 
     showDialog(
@@ -90,7 +90,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         return AlertDialog(
           title: const Text("Admin Login"),
           content: TextField(
-            controller: _passwordController,
+            controller: passwordController,
             obscureText: true,
             decoration: const InputDecoration(
               labelText: "Passwort",
@@ -104,7 +104,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                 if (storedHashedPassword == null) {
                   // Erstmaliges Setzen des Passworts
-                  String hashedPassword = hashPassword(_passwordController.text);
+                  String hashedPassword = hashPassword(passwordController.text);
                   await secureStorage.write(key: 'admin_password', value: hashedPassword);
                   Navigator.pop(context); // Dialog schließen
                   Navigator.push(
@@ -113,7 +113,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   );
                 } else {
                   // Passwort überprüfen
-                  String hashedInputPassword = hashPassword(_passwordController.text);
+                  String hashedInputPassword = hashPassword(passwordController.text);
                   if (hashedInputPassword == storedHashedPassword) {
                     Navigator.pop(context); // Dialog schließen
                     Navigator.push(

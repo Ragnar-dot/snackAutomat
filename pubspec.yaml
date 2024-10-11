@@ -12,6 +12,7 @@ dependencies:
   flutter_riverpod: ^2.0.0
   flutter_secure_storage: ^5.0.2
   crypto: ^3.0.1
+  flutter_glow: ^0.3.2
 
 dev_dependencies:
   flutter_test:
