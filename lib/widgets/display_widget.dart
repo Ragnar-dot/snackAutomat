@@ -2,18 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/transaction_provider.dart';
 
-class DisplayWidget extends ConsumerWidget {
-  const DisplayWidget({super.key});
+class DisplayWidget extends ConsumerStatefulWidget {
+  const DisplayWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _DisplayWidgetState createState() => _DisplayWidgetState();
+}
+
+class _DisplayWidgetState extends ConsumerState<DisplayWidget> {
+  double _oldTransactionAmount = 0.0;
+
+  @override
+  Widget build(BuildContext context) {
     final transactionAmount = ref.watch(transactionProvider);
 
+    final tween = Tween<double>(
+      begin: _oldTransactionAmount,
+      end: transactionAmount,
+    );
+
+    _oldTransactionAmount = transactionAmount;
+
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Text(
-        'Eingeworfener Betrag: Coin ${transactionAmount.toStringAsFixed(2)}',
-        style: const TextStyle(fontSize: 24),
+      padding: const EdgeInsets.all(30.0),
+      child: TweenAnimationBuilder<double>(
+        tween: tween,
+        duration: const Duration(milliseconds: 100),
+        builder: (context, value, child) {
+          return Text(
+            'Betrag: Coin ${value.toStringAsFixed(2)}',
+            style: const TextStyle(
+              fontSize: 30,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold,
+            ),
+          );
+        },
       ),
     );
   }
