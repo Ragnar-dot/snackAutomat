@@ -22,8 +22,37 @@ class HomeScreen extends ConsumerStatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProviderStateMixin { // SingleTickerProviderStateMixin für Animationen
   List<String> outputItems = [];
+
+// Animation für den Text "Ihre Auswahl..."
+  late AnimationController _blinkController;
+  late Animation<double> _animation;
+
+
+// Animation für den Text "Ihre Auswahl..."
+ @override
+  void initState() {
+    super.initState();
+
+    _blinkController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 5000),
+    )..repeat(reverse: true);
+
+    _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_blinkController);
+  }
+
+  @override
+  void dispose() {
+    _blinkController.dispose();
+    super.dispose();
+  }
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,20 +70,23 @@ return Scaffold(
           textStyle: const TextStyle(
             fontSize: 35.0,
             fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 90, 90, 90),
+            color: Color.fromARGB(149, 20, 99, 9),
           ),
           speed: const Duration(milliseconds: 200),
         ),
       ],
-      totalRepeatCount: 20, // Animation nur einmal abspielen
+      totalRepeatCount: 60, // Animation nur einmal abspielen
       pause: const Duration(milliseconds: 1000),
       displayFullTextOnTap: true,
       stopPauseOnTap: true,
     ),
-        actions: [
+         actions: [
           IconButton(
-            icon: const Icon(Icons.key),
             iconSize: 50,
+            icon: FadeTransition(
+              opacity: _animation,
+              child: const Icon(Icons.key),
+            ),
             onPressed: () {
               _showPasswordDialog();
             },
