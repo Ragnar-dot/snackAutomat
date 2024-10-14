@@ -10,10 +10,10 @@ class ProductWidget extends ConsumerWidget {
   final Function(String) onProductPurchased;
 
   const ProductWidget({
-    Key? key,
+    super.key,
     required this.product,
     required this.onProductPurchased,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -106,10 +106,9 @@ class _AnimatedPurchaseButton extends StatefulWidget {
   final VoidCallback onPressed;
 
   const _AnimatedPurchaseButton({
-    Key? key,
     required this.isEnabled,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   __AnimatedPurchaseButtonState createState() =>
