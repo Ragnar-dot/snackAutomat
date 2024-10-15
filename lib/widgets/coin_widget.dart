@@ -26,12 +26,12 @@ class CoinWidget extends ConsumerWidget {
       },
       child: Container(
         width: 80,
-        margin: const EdgeInsets.all(12.0),
+        margin: const EdgeInsets.all(15.0),
         child: Column(
           children: [
             Image.asset(
               coin.image,
-              height: 50,
+              height: 70,
             ),
             Text('Coin ${coin.value.toStringAsFixed(2)}'),
           ],

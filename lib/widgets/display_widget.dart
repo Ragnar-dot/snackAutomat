@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/transaction_provider.dart';
 
 class DisplayWidget extends ConsumerStatefulWidget {
-  const DisplayWidget({Key? key}) : super(key: key);
+  const DisplayWidget({super.key});
 
   @override
   _DisplayWidgetState createState() => _DisplayWidgetState();

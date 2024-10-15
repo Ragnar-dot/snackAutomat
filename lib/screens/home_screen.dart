@@ -61,6 +61,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
 
 return Scaffold(
   appBar: AppBar(
+    
     backgroundColor: Colors.white, // Optional: Hintergrundfarbe anpassen
     actionsIconTheme: const IconThemeData(color: Colors.black), // Optional: Icon-Farbe anpassen
     title: AnimatedTextKit(
@@ -70,7 +71,7 @@ return Scaffold(
           textStyle: const TextStyle(
             fontSize: 35.0,
             fontWeight: FontWeight.bold,
-            color: Color.fromARGB(149, 20, 99, 9),
+            color: Color.fromARGB(148, 28, 141, 13),
           ),
           speed: const Duration(milliseconds: 200),
         ),
@@ -105,21 +106,21 @@ return Scaffold(
           const DisplayWidget(),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(15.0),
               itemCount: products.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.75,
+                crossAxisCount: 3,
+                childAspectRatio: 0.85,
               ),
               itemBuilder: (context, index) {
-                return ProductWidget(
-                  product: products[index],
-                  onProductPurchased: (productName) {
-                    setState(() {
-                      outputItems.add(productName);
-                    });
-                  },
-                );
+                return     ProductWidget(
+                             product: products[index],
+                              onProductPurchased: (productName, productImage) {
+                                setState(() {
+                                 outputItems.add(productImage);
+        });
+      },
+    );
               },
             ),
           ),
