@@ -24,7 +24,7 @@ class VendorScreen extends StatelessWidget {
                 );
               },
               child: const Text(
-                'Hol dir deinen Snack',
+                'Press to Start',
                 style: TextStyle(fontSize: 24),
               ),
             ),
