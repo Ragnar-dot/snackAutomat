@@ -124,7 +124,7 @@ return Scaffold(
               },
             ),
           ),
-          OutputSlotWidget(outputItems: outputItems),
+          // OutputSlotWidget(outputItems: outputItems),                              //ausgabe im home_screenaktivieren durch ausklammern der Zeilen
           SizedBox(
             height: 120,
             child: ListView.builder(
