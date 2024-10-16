@@ -10,10 +10,10 @@ class ProductWidget extends ConsumerWidget {
   final Function(String, String) onProductPurchased;
 
   const ProductWidget({
-    Key? key,
+    super.key,
     required this.product,
     required this.onProductPurchased,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,8 +28,10 @@ class ProductWidget extends ConsumerWidget {
         children: [
           Image.asset(
             product.image,
-            height: 120,
+            height: 200,
+            width: 200,
             fit: BoxFit.cover,
+            
           ),
           Text(product.name),
           Text('Coin ${product.price.toStringAsFixed(2)}'),

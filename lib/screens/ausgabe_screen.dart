@@ -30,7 +30,7 @@ class AusgabeScreen extends StatelessWidget {
               'Ihre gekauften Produkte:',
               style: TextStyle(fontSize: 24),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             Expanded(
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -44,7 +44,8 @@ class AusgabeScreen extends StatelessWidget {
                       children: [
                         Image.asset(
                           purchasedProducts[index],
-                          height: 120,
+                          height: 250,
+                          
                           fit: BoxFit.cover,
                         ),
                         // Weitere Informationen zum Produkt können hier hinzugefügt werden

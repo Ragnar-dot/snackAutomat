@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'; // Hinzugefügt
-import 'screens/home_screen.dart'; // Importieren Sie Ihren HomeScreen
+// Importieren Sie Ihren HomeScreen
 import 'screens/vendor_screen.dart'; // Importieren Sie den neuen VendorScreen
 
 void main() {

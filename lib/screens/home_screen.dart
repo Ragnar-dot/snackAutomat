@@ -8,12 +8,11 @@ import '../providers/coin_provider.dart';
 import '../widgets/product_widget.dart';
 import '../widgets/coin_widget.dart';
 import '../widgets/display_widget.dart';
-import '../widgets/output_slot_widget.dart';
 import 'admin_screen.dart';
+import 'vendor_screen.dart'; // Importieren Sie den VendorScreen
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -22,22 +21,20 @@ class HomeScreen extends ConsumerStatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProviderStateMixin { // SingleTickerProviderStateMixin für Animationen
+class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProviderStateMixin {
   List<String> outputItems = [];
 
-// Animation für den Text "Ihre Auswahl..."
+  // Animation für das Key-Icon
   late AnimationController _blinkController;
   late Animation<double> _animation;
 
-
-// Animation für den Text "Ihre Auswahl..."
- @override
+  @override
   void initState() {
     super.initState();
 
     _blinkController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 5000),
+      duration: const Duration(milliseconds: 9000),
     )..repeat(reverse: true);
 
     _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_blinkController);
@@ -49,39 +46,45 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
     super.dispose();
   }
 
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     final products = ref.watch(productListProvider);
     final coins = ref.watch(coinListProvider);
 
-return Scaffold(
-  appBar: AppBar(
-    
-    backgroundColor: Colors.white, // Optional: Hintergrundfarbe anpassen
-    actionsIconTheme: const IconThemeData(color: Colors.black), // Optional: Icon-Farbe anpassen
-    title: AnimatedTextKit(
-      animatedTexts: [
-        TypewriterAnimatedText(
-          'Ihre Auswahl...',
-          textStyle: const TextStyle(
-            fontSize: 35.0,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(148, 28, 141, 13),
-          ),
-          speed: const Duration(milliseconds: 200),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 204, 204, 204), // Hintergrundfarbe anpassen
+        actionsIconTheme: const IconThemeData(color: Colors.black), // Icon-Farbe anpassen
+        title: AnimatedTextKit(
+          animatedTexts: [
+            TypewriterAnimatedText(
+              'Ihre Auswahl...',
+              textStyle: const TextStyle(
+                fontSize: 35.0,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(148, 28, 141, 13),
+              ),
+              speed: const Duration(milliseconds: 200),
+            ),
+          ],
+          totalRepeatCount: 60, // Animation mehrfach abspielen
+          pause: const Duration(milliseconds: 1000),
+          displayFullTextOnTap: true,
+          stopPauseOnTap: true,
         ),
-      ],
-      totalRepeatCount: 60, // Animation nur einmal abspielen
-      pause: const Duration(milliseconds: 1000),
-      displayFullTextOnTap: true,
-      stopPauseOnTap: true,
-    ),
-         actions: [
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.home),
+            iconSize: 45,
+            
+            
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const VendorScreen()),
+              );
+            },
+          ),
           IconButton(
             iconSize: 50,
             icon: FadeTransition(
@@ -92,7 +95,8 @@ return Scaffold(
               _showPasswordDialog();
             },
           ),
-          // Temporäre Schaltfläche zum Zurücksetzen des Passworts                                     //aktivieren durch ausklammern der Zeilen
+          // Temporäre Schaltfläche zum Zurücksetzen des Passworts
+          // Aktivieren durch Auskommentieren der Zeilen
           // IconButton(
           //   icon: const Icon(Icons.restore),
           //   onPressed: () {
@@ -113,18 +117,18 @@ return Scaffold(
                 childAspectRatio: 0.85,
               ),
               itemBuilder: (context, index) {
-                return     ProductWidget(
-                             product: products[index],
-                              onProductPurchased: (productName, productImage) {
-                                setState(() {
-                                 outputItems.add(productImage);
-        });
-      },
-    );
+                return ProductWidget(
+                  product: products[index],
+                  onProductPurchased: (productName, productImage) {
+                    setState(() {
+                      outputItems.add(productImage);
+                    });
+                  },
+                );
               },
             ),
           ),
-          // OutputSlotWidget(outputItems: outputItems),                              //ausgabe im home_screenaktivieren durch ausklammern der Zeilen
+          // OutputSlotWidget(outputItems: outputItems), // Ausgabe im HomeScreen
           SizedBox(
             height: 120,
             child: ListView.builder(
@@ -139,16 +143,6 @@ return Scaffold(
       ),
     );
   }
-                                                                                                         //aktivieren durch ausklammern der Zeilen
-  // void _resetAdminPassword() async {                       
-  //   final secureStorage = ref.read(secureStorageProvider);
-  //   await secureStorage.delete(key: 'admin_password');
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     const SnackBar(
-  //       content: Text('Das Admin-Passwort wurde zurückgesetzt. Bitte setzen Sie ein neues Passwort.'),
-  //     ),
-  //   );
-  // }
 
   void _showPasswordDialog() {
     TextEditingController passwordController = TextEditingController();
@@ -215,9 +209,6 @@ return Scaffold(
   }
 
   String hashPassword(String password) {
-    // Importieren 'dart:convert' und 'package:crypto/crypto.dart'
-    // für die folgenden Funktionen
-
     // Ein statisches Salt (für Demo-Zwecke)
     const String salt = "EinSicheresSalt";
 
