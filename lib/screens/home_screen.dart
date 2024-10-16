@@ -54,7 +54,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 204, 204, 204), // Hintergrundfarbe anpassen
-        actionsIconTheme: const IconThemeData(color: Colors.black), // Icon-Farbe anpassen
+        actionsIconTheme: const IconThemeData(color: Color.fromARGB(255, 24, 122, 45)), // Icon-Farbe anpassen
         title: AnimatedTextKit(
           animatedTexts: [
             TypewriterAnimatedText(
@@ -62,7 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               textStyle: const TextStyle(
                 fontSize: 35.0,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(148, 28, 141, 13),
+                color: Color.fromARGB(147, 21, 109, 9),
               ),
               speed: const Duration(milliseconds: 200),
             ),

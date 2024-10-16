@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart'; // Importieren Sie Ihren HomeScreen
 
 class VendorScreen extends StatefulWidget {
-  const VendorScreen({Key? key}) : super(key: key);
+  const VendorScreen({super.key});
 
   @override
   _VendorScreenState createState() => _VendorScreenState();
