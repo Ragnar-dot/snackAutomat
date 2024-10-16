@@ -86,26 +86,34 @@ class _VendorScreenState extends State<VendorScreen> with SingleTickerProviderSt
               },
             ),
           ),
-          if (!_isButtonPressed) // Button nur anzeigen, wenn er nicht gedrückt wurde
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
-                ),
-                onPressed: () {
+            if (!_isButtonPressed) // Button nur anzeigen, wenn er nicht gedrückt wurde
+              Stack(
+              children: [
+                 Positioned(
+                    top: 550, // Abstand vom oberen Rand
+                    right: 228, // Abstand vom rechten Rand
+                    child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
+                    ),
+                    onPressed: () {
                   setState(() {
                     _isButtonPressed = true; // Button ausblenden
                   });
-                  _controller.forward(from: 0.0); // Animation starten
-                },
-                child: const Text(
-                  'Tap to Start',
-                  style: TextStyle(fontSize: 24),
-                ),
-              ),
-            ),
-        ],
+            _controller.forward(from: 0.0); // Animation starten
+          },
+          child: const Text(
+            'Tap to Start',
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
       ),
-    );
-  }
+    ],
+  ),
+],
+),
+);
 }
+}
+
+  
