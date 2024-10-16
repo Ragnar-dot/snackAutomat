@@ -22,7 +22,7 @@ class _VendorScreenState extends State<VendorScreen> with SingleTickerProviderSt
     _isButtonPressed = false; // Button anzeigen
 
     _controller = AnimationController(
-      duration: const Duration(seconds: 3), // Gesamtdauer der Animation
+      duration: const Duration(seconds: 2), // Gesamtdauer der Animation
       vsync: this,
     );
 
