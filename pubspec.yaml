@@ -29,4 +29,5 @@ flutter:
     - assets/coins/
     - assets/products/
     - assets/Vendor/
+    - assets/wallet/
     - assets/sounds/coinsound.mp3
