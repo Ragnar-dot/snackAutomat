@@ -106,7 +106,7 @@ class _VendorScreenState extends State<VendorScreen> with SingleTickerProviderSt
           },
           child: const Text(
             'Tap to Start',
-            style: TextStyle(fontSize: 15),
+            style: TextStyle(fontSize: 12),
           ),
         ),
       ),

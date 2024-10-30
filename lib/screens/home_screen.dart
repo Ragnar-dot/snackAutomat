@@ -86,7 +86,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
             },
           ),
           IconButton(
-            iconSize: 50,
+            iconSize: 45,
             icon: FadeTransition(
               opacity: _animation,
               child: const Icon(Icons.key),

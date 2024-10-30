@@ -16,7 +16,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Adelholzener Naturell 0,5 l',
       price: 1.70,
       quantity: 10,
-      image: 'assets/products/Adelholzener Naturell 0,5 l.jpg',
+      image: 'assets/products/Adelholzener Naturell 0,5 l.png',
     ),
 
     Product(

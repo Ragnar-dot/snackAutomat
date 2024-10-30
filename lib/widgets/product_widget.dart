@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/product.dart';
@@ -46,7 +47,7 @@ return SizedBox(
           ),
         ),
         Text(
-          'Coin ${product.price.toStringAsFixed(2)}',
+          'Ł ${product.price.toStringAsFixed(2)}',
           style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w500,
@@ -66,7 +67,7 @@ return SizedBox(
                   )
                 : remainingAmount > 0
                     ? Text(
-                        'Noch fehlend: Coin ${remainingAmount.toStringAsFixed(2)}',
+                        'Noch fehlend: Ł ${remainingAmount.toStringAsFixed(2)}',
                         style: const TextStyle (
                           fontSize: 12),
                       )
@@ -74,7 +75,10 @@ return SizedBox(
             ElevatedButton(
               onPressed: transactionAmount >= product.price &&
                       product.quantity > 0
-                  ? () {
+                        ? () async {
+                                                                                              // Play sound
+                                                                                             final player = AudioPlayer();
+                                                                                             await player.play(AssetSource('sounds/vending-machine-output.mp3'));
                       // Produkt kaufen
                       stackManager.addRevenue(product.price);
                       ref.read(transactionProvider.notifier).resetTransaction();
@@ -88,7 +92,7 @@ return SizedBox(
                             stackManager.calculateChange(changeAmount);
                         if (change.isNotEmpty) {
                           onProductPurchased(
-                              'Wechselgeld: Coin ${changeAmount.toStringAsFixed(2)}',
+                              'Wechselgeld: Ł ${changeAmount.toStringAsFixed(2)}',
                               '');
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(

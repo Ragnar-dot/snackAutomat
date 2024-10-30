@@ -31,3 +31,4 @@ flutter:
     - assets/Vendor/
     - assets/wallet/
     - assets/sounds/coinsound.mp3
+    - assets/sounds/vending-machine-output.mp3

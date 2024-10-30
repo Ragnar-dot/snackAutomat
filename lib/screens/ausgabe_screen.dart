@@ -22,12 +22,12 @@ class AusgabeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Wechselgeld: Coin ${changeAmount.toStringAsFixed(2)}',
+              'Wechselgeld: Ł ${changeAmount.toStringAsFixed(2)}',
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),
             const Text(
-              'Ihre gekauften Produkte:',
+              'Ihr Produkt:',
               style: TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),

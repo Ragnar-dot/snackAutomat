@@ -32,7 +32,7 @@ class _DisplayWidgetState extends ConsumerState<DisplayWidget> {
         duration: const Duration(milliseconds: 100),
         builder: (context, value, child) {
           return Text(
-            'Betrag: Coin ${value.toStringAsFixed(2)}',
+            'Betrag: Ł ${value.toStringAsFixed(2)}',
             style: const TextStyle(
               fontSize: 30,
               fontStyle: FontStyle.italic,
