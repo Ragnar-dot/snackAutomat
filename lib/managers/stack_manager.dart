@@ -5,7 +5,8 @@ class StackManager {
   final List<Product> _products;
   final Map<double, int> _coinInventory;
   double _totalRevenue = 0.0;
-  final List<String> _transactionHistory = []; // Neu hinzugefügt
+  double _walletBalance = 200.0; // Wallet Balance set to 200 coin initially
+  final List<String> _transactionHistory = [];
 
   StackManager({
     required List<Product> initialProducts,
@@ -16,6 +17,18 @@ class StackManager {
         };
 
   // Getter und Methoden bleiben weitgehend gleich...
+
+  // Wallet Guthaben abrufen
+  double get walletBalance => _walletBalance;
+
+  // Wallet Guthaben aktualisieren
+  void updateWalletBalance(double amount) {
+    if (_walletBalance - amount >= 0) {
+      _walletBalance -= amount;
+    } else {
+      throw Exception('Nicht genug Guthaben im Wallet.');
+    }
+  }
 
   // Transaktion speichern
   void addTransaction(String transaction) {
@@ -77,38 +90,31 @@ class StackManager {
     product.quantity += amount;
   }
 
- 
-  // ...
+  // Wechselgeld berechnen und Münzbestand aktualisieren
+  List<double> calculateChange(double changeAmount) {
+    List<double> change = [];
+    double remainingAmount = double.parse(changeAmount.toStringAsFixed(2));
+    List<double> coinValues = _coinInventory.keys.toList()..sort((a, b) => b.compareTo(a));
 
+    for (var coinValue in coinValues) {
+      int coinCount = _coinInventory[coinValue]!;
+      while (remainingAmount >= coinValue && coinCount > 0) {
+        remainingAmount = double.parse((remainingAmount - coinValue).toStringAsFixed(2));
+        coinCount--;
+        _coinInventory[coinValue] = coinCount;
+        change.add(coinValue);
+      }
+    }
 
-// Wechselgeld berechnen und Münzbestand aktualisieren
-List<double> calculateChange(double changeAmount) {
-  List<double> change = [];
-  double remainingAmount = double.parse(changeAmount.toStringAsFixed(2));
-  List<double> coinValues = _coinInventory.keys.toList()..sort((a, b) => b.compareTo(a));
-
-  for (var coinValue in coinValues) {
-    int coinCount = _coinInventory[coinValue]!;
-    while (remainingAmount >= coinValue && coinCount > 0) {
-      remainingAmount = double.parse((remainingAmount - coinValue).toStringAsFixed(2));
-      coinCount--;
-      _coinInventory[coinValue] = coinCount;
-      change.add(coinValue);
+    if (remainingAmount == 0) {
+      return change;
+    } else {
+      // Nicht genügend Münzen für Wechselgeld
+      // Münzbestand zurücksetzen
+      for (var coin in change) {
+        _coinInventory[coin] = _coinInventory[coin]! + 1;
+      }
+      return [];
     }
   }
-
-  if (remainingAmount == 0) {
-    return change;
-  } else {
-    // Nicht genügend Münzen für Wechselgeld
-    // Münzbestand zurücksetzen
-    for (var coin in change) {
-      _coinInventory[coin] = _coinInventory[coin]! + 1;
-    }
-    return [];
-  }
-}
-
-
-
 }

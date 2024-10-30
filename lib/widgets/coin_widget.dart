@@ -25,15 +25,15 @@ class CoinWidget extends ConsumerWidget {
         stackManager.addCoinToInventory(coin.value);
       },
       child: Container(
-        width: 80,
-        margin: const EdgeInsets.all(15.0),
+        width: 40,
+        margin: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             Image.asset(
               coin.image,
-              height: 70,
+              height: 40,
             ),
-            Text('Coin ${coin.value.toStringAsFixed(2)}'),
+            Text(' ${coin.value.toStringAsFixed(2)}'),
           ],
         ),
       ),

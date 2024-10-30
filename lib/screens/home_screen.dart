@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,8 +8,9 @@ import '../providers/coin_provider.dart';
 import '../widgets/product_widget.dart';
 import '../widgets/coin_widget.dart';
 import '../widgets/display_widget.dart';
+import '../widgets/wallet_widget.dart';
 import 'admin_screen.dart';
-import 'vendor_screen.dart'; // Importieren Sie den VendorScreen
+import 'vendor_screen.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -50,6 +51,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
   Widget build(BuildContext context) {
     final products = ref.watch(productListProvider);
     final coins = ref.watch(coinListProvider);
+    final wallet = Wallet(value: 200.0, image: 'assets/wallet/wallet.png'); // Beispiel-Wallet
 
     return Scaffold(
       appBar: AppBar(
@@ -76,8 +78,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           IconButton(
             icon: const Icon(Icons.home),
             iconSize: 45,
-            
-            
             onPressed: () {
               Navigator.pushReplacement(
                 context,
@@ -95,14 +95,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               _showPasswordDialog();
             },
           ),
-          // Temporäre Schaltfläche zum Zurücksetzen des Passworts
-          // Aktivieren durch Auskommentieren der Zeilen
-          // IconButton(
-          //   icon: const Icon(Icons.restore),
-          //   onPressed: () {
-          //     _resetAdminPassword();
-          //   },
-          // ),
         ],
       ),
       body: Column(
@@ -110,10 +102,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           const DisplayWidget(),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(1.0),
               itemCount: products.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: 2,
                 childAspectRatio: 0.85,
               ),
               itemBuilder: (context, index) {
@@ -128,15 +120,21 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               },
             ),
           ),
-          // OutputSlotWidget(outputItems: outputItems), // Ausgabe im HomeScreen
           SizedBox(
             height: 120,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: coins.length,
-              itemBuilder: (context, index) {
-                return CoinWidget(coin: coins[index]);
-              },
+            child: Row(
+              children: [
+                WalletWidget(wallet: wallet),
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: coins.length,
+                    itemBuilder: (context, index) {
+                      return CoinWidget(coin: coins[index]);
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],

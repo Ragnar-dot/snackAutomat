@@ -17,24 +17,24 @@ class AusgabeScreen extends StatelessWidget {
         title: const Text('Ausgabe'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(50.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Wechselgeld: Coin ${changeAmount.toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 24),
+              style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),
             const Text(
               'Ihre gekauften Produkte:',
-              style: TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),
             Expanded(
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                  crossAxisCount: 1,
                   childAspectRatio: 0.75,
                 ),
                 itemCount: purchasedProducts.length,

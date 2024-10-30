@@ -6,12 +6,12 @@ import 'screens/vendor_screen.dart'; // Importieren Sie den neuen VendorScreen
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
-  ]).then((_) {
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.landscapeLeft,
+  //   DeviceOrientation.landscapeRight,
+  // ]).then((_) {
     runApp(const ProviderScope(child: MyApp())); // ProviderScope hinzugefügt
-  });
+  // });
 }
 
 class MyApp extends StatelessWidget {
