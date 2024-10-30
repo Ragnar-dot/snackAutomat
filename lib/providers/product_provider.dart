@@ -8,7 +8,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Lays KFC Chips',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/Lays KFC Chips.jpg',
+      image: 'assets/products/Lays KFC Chips.png',
     ),
 
     Product(
@@ -24,7 +24,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Ball und Ovidias belgische Schokolade',
       price: 2.00,
       quantity: 10,
-      image: 'assets/products/Ball und Ovidias belgische Schokolade.jpg',
+      image: 'assets/products/Ball und Ovidias belgische Schokolade.png',
     ),
 
     Product(
@@ -32,7 +32,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'BeefJerky',
       price: 2.50,
       quantity: 10,
-      image: 'assets/products/BeefJerky.jpg',
+      image: 'assets/products/BeefJerky.png',
     ),
 
         Product(
@@ -40,7 +40,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Celebrations Pop Geschenkbox',
       price: 2.70,
       quantity: 10,
-      image: 'assets/products/Celebrations Pop Geschenkbox.jpg',
+      image: 'assets/products/Celebrations Pop Geschenkbox.png',
     ),
 
     Product(
@@ -48,7 +48,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Coca Cola Dose 0,33 l',
       price: 1.20,
       quantity: 10,
-      image: 'assets/products/Coca Cola Dose 0,33 l.jpg',
+      image: 'assets/products/Coca Cola Dose 0,33 l.png',
     ),
 
     Product(
@@ -56,7 +56,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Crunchy Nuts Spicy',
       price: 1.15,
       quantity: 10,
-      image: 'assets/products/Crunchy Nuts Spicy.jpg',
+      image: 'assets/products/Crunchy Nuts Spicy.png',
     ),
 
     Product(
@@ -64,7 +64,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Elephant Prezels',
       price: 1.20,
       quantity: 10,
-      image: 'assets/products/Elephant Prezels.jpg',
+      image: 'assets/products/Elephant Prezels.png',
     ),
 
 
@@ -77,7 +77,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Fanta Dose 0,33 l',
       price: 1.70,
       quantity: 10,
-      image: 'assets/products/Fanta Dose 0,33 l.jpg',
+      image: 'assets/products/Fanta Dose 0,33 l.png',
     ),
 
     Product(
@@ -85,7 +85,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Iso Sport Drink light 0,25 l',
       price: 1.90,
       quantity: 10,
-      image: 'assets/products/Iso Sport Drink light 0,25 l.jpg',
+      image: 'assets/products/Iso Sport Drink light 0,25 l.png',
     ),
 
     Product(
@@ -93,7 +93,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Kichererbsen Chips',
       price: 1.70,
       quantity: 10,
-      image: 'assets/products/Kichererbsen Chips.jpg',
+      image: 'assets/products/Kichererbsen Chips.png',
     ),
 
     Product(
@@ -101,7 +101,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Knoppers',
       price: 0.90,
       quantity: 10,
-      image: 'assets/products/Knoppers.jpg',
+      image: 'assets/products/Knoppers.png',
     ),
 
         Product(
@@ -109,7 +109,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Knorr Pasta Pot XXL',
       price: 1.70,
       quantity: 10,
-      image: 'assets/products/Knorr Pasta Pot XXL.jpg',
+      image: 'assets/products/Knorr Pasta Pot XXL.png',
     ),
 
     Product(
@@ -117,7 +117,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Knusprige Krabbencracker',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/Knusprige Krabbencracker.jpg',
+      image: 'assets/products/Knusprige Krabbencracker.png',
     ),
 
     Product(
@@ -125,7 +125,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Kortoffel Sticks',
       price: 1.20,
       quantity: 10,
-      image: 'assets/products/Kortoffel Sticks.jpg',
+      image: 'assets/products/Kortoffel Sticks.png',
 
     ),
 
@@ -134,7 +134,7 @@ final productListProvider = Provider<List<Product>>((ref) {
       name: 'Elephant Prezels',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/Elephant Prezels.jpg',
+      image: 'assets/products/Elephant Prezels.png',
     ),
 
 
@@ -148,7 +148,7 @@ Product(
       name: 'Ball und Ovidias belgische Schokolade',
       price: 2.90,
       quantity: 10,
-      image: 'assets/products/Ball und Ovidias belgische Schokolade.jpg',
+      image: 'assets/products/Ball und Ovidias belgische Schokolade.png',
     ),
 
     Product(
@@ -156,7 +156,7 @@ Product(
       name: 'BeefJerky',
       price: 2.70,
       quantity: 10,
-      image: 'assets/products/BeefJerky.jpg',
+      image: 'assets/products/BeefJerky.png',
     ),
 
         Product(
@@ -164,7 +164,7 @@ Product(
       name: 'Celebrations Pop Geschenkbox',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/Celebrations Pop Geschenkbox.jpg',
+      image: 'assets/products/Celebrations Pop Geschenkbox.png',
     ),
 
     Product(
@@ -172,7 +172,7 @@ Product(
       name: 'Coca Cola Dose 0,33 l',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/Coca Cola Dose 0,33 l.jpg',
+      image: 'assets/products/Coca Cola Dose 0,33 l.png',
     ),
 
     Product(
@@ -180,7 +180,7 @@ Product(
       name: 'Crunchy Nuts Spicy',
       price: 1.50,
       quantity: 10,
-      image: 'assets/products/Crunchy Nuts Spicy.jpg',
+      image: 'assets/products/Crunchy Nuts Spicy.png',
     ),
 
 

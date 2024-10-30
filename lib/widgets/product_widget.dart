@@ -34,7 +34,8 @@ return SizedBox(
         Image.asset(
           product.image,
           height: 90,
-          width: 90,
+          width: 90
+        ,
           fit: BoxFit.cover,
         ),
         const SizedBox(height: 8), // Adds spacing between elements
