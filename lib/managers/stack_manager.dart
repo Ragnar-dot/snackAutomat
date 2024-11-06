@@ -106,7 +106,7 @@ class StackManager {
       }
     }
 
-    if (remainingAmount == 0) {
+  if (remainingAmount == 0) {
       return change;
     } else {
       // Nicht genügend Münzen für Wechselgeld
