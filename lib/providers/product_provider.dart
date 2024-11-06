@@ -143,13 +143,7 @@ final productListProvider = Provider<List<Product>>((ref) {
 
 
 
-Product(
-      id: 17,
-      name: 'Ball und Ovidias belgische Schokolade',
-      price: 2.90,
-      quantity: 10,
-      image: 'assets/products/Ball und Ovidias belgische Schokolade.png',
-    ),
+
 
     Product(
       id: 18,

@@ -120,7 +120,7 @@ class _VendorScreenState extends State<VendorScreen> with SingleTickerProviderSt
                       child: Text(
                         'Tap to Start',
                         // Entfernen Sie die feste Schriftgröße
-                        // style: TextStyle(fontSize: 8),
+                        style: TextStyle(fontSize: 8),
                       ),
                     ),
                   ),
