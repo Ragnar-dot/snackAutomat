@@ -63,6 +63,7 @@ class _VendorScreenState extends State<VendorScreen> with SingleTickerProviderSt
     return Scaffold(
       body: Stack(
         children: [
+          // Hintergrundbild und Animation
           Positioned.fill(
             child: AnimatedBuilder(
               animation: _controller,
@@ -88,34 +89,46 @@ class _VendorScreenState extends State<VendorScreen> with SingleTickerProviderSt
               },
             ),
           ),
-            if (!_isButtonPressed) // Button nur anzeigen, wenn er nicht gedrückt wurde
-              Stack(
-              children: [
-                 Positioned(
-                    top: 550, // Abstand vom oberen Rand
-                    right: 228, // Abstand vom rechten Rand
-                    child: ElevatedButton(
+          // Start-Button nur anzeigen, wenn er nicht gedrückt wurde
+          if (!_isButtonPressed)
+            Positioned(
+              // Passen Sie hier die Position an
+              top: 300, // Vertikale Position
+              left: 290, // Horizontale Position
+              child: Opacity(
+                // Stellen Sie hier die Opazität ein (0.0 bis 1.0)
+                opacity: 0.5,
+                child: SizedBox(
+                  // Passen Sie hier die Größe des Buttons an
+                  width: 55,
+                  height: 40,
+                  child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
+                      // Entfernen Sie die Mindestgröße, um die Größe des Buttons aus dem SizedBox zu übernehmen
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.zero,
+                      // Sie können zusätzliche Stile hier hinzufügen
                     ),
                     onPressed: () {
-                  setState(() {
-                    _isButtonPressed = true; // Button ausblenden
-                  });
-            _controller.forward(from: 0.0); // Animation starten
-          },
-          child: const Text(
-            'Tap to Start',
-            style: TextStyle(fontSize: 12),
-          ),
-        ),
+                      setState(() {
+                        _isButtonPressed = true; // Button ausblenden
+                      });
+                      _controller.forward(from: 0.0); // Animation starten
+                    },
+                    child: const FittedBox(
+                      fit: BoxFit.contain,
+                      child: Text(
+                        'Tap to Start',
+                        // Entfernen Sie die feste Schriftgröße
+                        // style: TextStyle(fontSize: 8),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
-    ],
-  ),
-],
-),
-);
+    );
+  }
 }
-}
-
-  

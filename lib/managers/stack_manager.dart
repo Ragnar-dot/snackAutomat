@@ -4,10 +4,11 @@ import '../models/product.dart';
 class StackManager {
   final List<Product> _products;
   final Map<double, int> _coinInventory;
-  double _totalRevenue = 0.0;
-  double _walletBalance = 200.0; // Wallet Balance set to 200 coin initially
+  double _totalRevenue = 0.0; // Initial total revenue set to 0 coins Einnahmen
+  double _walletBalance = 200.0; // Initial wallet balance set to 200 coins
   final List<String> _transactionHistory = [];
 
+  // Constructor to initialize products and coins
   StackManager({
     required List<Product> initialProducts,
     required List<Coin> initialCoins,
@@ -16,12 +17,10 @@ class StackManager {
           for (var coin in initialCoins) coin.value: 10,
         };
 
-  // Getter und Methoden bleiben weitgehend gleich...
-
-  // Wallet Guthaben abrufen
+  // Get the current wallet balance
   double get walletBalance => _walletBalance;
 
-  // Wallet Guthaben aktualisieren
+  // Update wallet balance by deducting the specified amount
   void updateWalletBalance(double amount) {
     if (_walletBalance - amount >= 0) {
       _walletBalance -= amount;
@@ -30,24 +29,48 @@ class StackManager {
     }
   }
 
-  // Transaktion speichern
+  // Handle coin insertion: deduct from wallet, add coin to inventory, and add to revenue
+  void onCoinInserted(double coinValue) {
+    try {
+      // Deduct the coin value from the customer's wallet
+      deductFromCoinstack(coinValue);
+      
+      // Add the coin to the inventory (admin area)
+      addCoinToInventory(coinValue);
+      
+      // Add the coin value to the total revenue (profit)
+      addRevenue(coinValue);
+      
+      // Log the transaction
+      addTransaction('Münze $coinValue eingeworfen.');
+    } catch (e) {
+      print('Fehler: ${e.toString()}');
+    }
+  }
+
+  // Deduct a specific coin value from the wallet balance
+  void deductFromCoinstack(double coinValue) {
+    updateWalletBalance(coinValue);
+  }
+
+  // Add a transaction record to the history
   void addTransaction(String transaction) {
     _transactionHistory.add(transaction);
   }
 
-  // Transaktionshistorie abrufen
+  // Retrieve the transaction history
   List<String> get transactionHistory => _transactionHistory;
 
-  // Produkte verwalten
+  // Retrieve the list of products
   List<Product> get products => _products;
 
-  // Münzbestand anzeigen
+  // Retrieve the coin inventory
   Map<double, int> get coinInventory => _coinInventory;
 
-  // Gesamtumsatz abrufen
+  // Retrieve the total revenue
   double get totalRevenue => _totalRevenue;
 
-  // Produkt nach ID suchen
+  // Get a product by its ID
   Product getProductById(int productId) {
     return _products.firstWhere(
       (product) => product.id == productId,
@@ -55,7 +78,7 @@ class StackManager {
     );
   }
 
-  // Produktbestand verringern (bei Kauf)
+  // Decrease product stock when a product is purchased
   void reduceProductStock(int productId) {
     final product = getProductById(productId);
     if (product.quantity > 0) {
@@ -65,12 +88,12 @@ class StackManager {
     }
   }
 
-  // Umsatz erhöhen
+  // Add amount to total revenue
   void addRevenue(double amount) {
     _totalRevenue += amount;
   }
 
-  // Münzen hinzufügen (wenn Benutzer Münzen einwirft)
+  // Add a coin to the inventory
   void addCoinToInventory(double coinValue) {
     if (_coinInventory.containsKey(coinValue)) {
       _coinInventory[coinValue] = _coinInventory[coinValue]! + 1;
@@ -79,18 +102,18 @@ class StackManager {
     }
   }
 
-  // Münzen nachfüllen
+  // Restock all coins to the default level of 10 each
   void restockAllCoins() {
     _coinInventory.updateAll((key, value) => 10);
   }
 
-  // Produkt nachfüllen
+  // Restock a specific product by ID
   void restockProduct(int productId, int amount) {
     final product = getProductById(productId);
     product.quantity += amount;
   }
 
-  // Wechselgeld berechnen und Münzbestand aktualisieren
+  // Calculate change based on the change amount and update coin inventory
   List<double> calculateChange(double changeAmount) {
     List<double> change = [];
     double remainingAmount = double.parse(changeAmount.toStringAsFixed(2));
@@ -106,11 +129,10 @@ class StackManager {
       }
     }
 
-  if (remainingAmount == 0) {
+    if (remainingAmount == 0) {
       return change;
     } else {
-      // Nicht genügend Münzen für Wechselgeld
-      // Münzbestand zurücksetzen
+      // Reset the coin inventory if exact change cannot be provided
       for (var coin in change) {
         _coinInventory[coin] = _coinInventory[coin]! + 1;
       }
