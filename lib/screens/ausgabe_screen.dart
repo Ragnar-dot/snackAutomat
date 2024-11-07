@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:snackautomat/managers/stack_manager.dart';
 
-class AusgabeScreen extends StatelessWidget {
-  final double changeAmount;
-  final List<String> purchasedProducts;
-
+class AusgabeScreen extends ConsumerWidget {
   const AusgabeScreen({
     super.key,
-    required this.changeAmount,
-    required this.purchasedProducts,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final stack = ref.watch(refStack);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ausgabe'),
@@ -22,7 +20,7 @@ class AusgabeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Wechselgeld: Ł ${changeAmount.toStringAsFixed(2)}',
+              'Wechselgeld: Ł ${stack.wechselgeld}',
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),
@@ -37,15 +35,14 @@ class AusgabeScreen extends StatelessWidget {
                   crossAxisCount: 1,
                   childAspectRatio: 0.75,
                 ),
-                itemCount: purchasedProducts.length,
+                itemCount: stack.ausgabefach.length,
                 itemBuilder: (context, index) {
                   return Card(
                     child: Column(
                       children: [
                         Image.asset(
-                          purchasedProducts[index],
+                          stack.ausgabefach[index].image,
                           height: 250,
-                          
                           fit: BoxFit.cover,
                         ),
                         // Weitere Informationen zum Produkt können hier hinzugefügt werden
