@@ -35,7 +35,7 @@ class _DisplayWidgetState extends ConsumerState<DisplayWidget> {
           return Container(
             padding: const EdgeInsets.all(6.0), // Optional: Innenabstand hinzufügen
             decoration: BoxDecoration(
-              color: const Color.fromARGB(97, 75, 85, 95).withOpacity(0.9), // Hintergrundfarbe mit Opazität
+              color: const Color.fromARGB(97, 75, 85, 95).withOpacity(0.5), // Hintergrundfarbe mit Opazität
               borderRadius: BorderRadius.circular(6.0), // Optional: Abgerundete Ecken
             ),
             child: Text(

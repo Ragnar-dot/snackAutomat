@@ -16,7 +16,7 @@ class WalletWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final stack = ref.read(refStack);
+    final stack = ref.watch(refStack); // Use watch instead of read for reactive updates
 
     return GestureDetector(
       onTap: () {},
@@ -26,8 +26,8 @@ class WalletWidget extends ConsumerWidget {
         child: Column(
           children: [
             Image.asset(
-              image,
-              height: 60,
+              'assets/Wallet/Wallet.png',
+              height: 50,
             ),
             Text('Guthaben: ${stack.walletBalance} Ł'),
           ],

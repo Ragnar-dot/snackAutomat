@@ -277,4 +277,11 @@ class StackManager extends Notifier<StackState> {
     if (remainingAmount == 0) return true;
     return false;
   }
+
+
+  
 }
+
+
+
+

@@ -10,6 +10,7 @@ class AusgabeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final stack = ref.watch(refStack);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ausgabe'),
@@ -30,27 +31,46 @@ class AusgabeScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                  childAspectRatio: 0.75,
-                ),
-                itemCount: stack.ausgabefach.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          stack.ausgabefach[index].image,
-                          height: 250,
-                          fit: BoxFit.cover,
-                        ),
-                        // Weitere Informationen zum Produkt können hier hinzugefügt werden
-                      ],
+              child: stack.ausgabefach.isNotEmpty
+                  ? GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1,
+                        childAspectRatio: 0.75,
+                      ),
+                      itemCount: stack.ausgabefach.length,
+                      itemBuilder: (context, index) {
+                        final product = stack.ausgabefach[index];
+                        return Card(
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                product.image,
+                                height: 250,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(Icons.broken_image, size: 250);
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                product.name,
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Preis: Ł ${product.price}',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                  : const Center(
+                      child: Text(
+                        'Kein Produkt im Ausgabefach',
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                      ),
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),
