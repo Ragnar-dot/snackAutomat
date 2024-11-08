@@ -2,28 +2,25 @@ import 'dart:ui'; // Für BackdropFilter
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:snackautomat/managers/stack_manager.dart';
 import '../models/product.dart';
-import '../providers/transaction_provider.dart';
-import '../providers/stack_manager_provider.dart';
 import '../screens/ausgabe_screen.dart';
 
 class ProductWidget extends ConsumerWidget {
   final Product product;
-  final Function(String, String) onProductPurchased;
 
   const ProductWidget({
     super.key,
     required this.product,
-    required this.onProductPurchased,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transactionAmount = ref.watch(transactionProvider);
-    final stackManager = ref.read(stackManagerProvider);
+    final stack = ref.watch(refStack);
+    final transactionAmount = stack.transaction;
+    final stackManager = ref.read(refStack.notifier);
 
-    double remainingAmount =
-        double.parse((product.price - transactionAmount).toStringAsFixed(2));
+    double remainingAmount = double.parse((product.price - transactionAmount).toStringAsFixed(2));
 
     return SizedBox(
       width: 200,
@@ -116,9 +113,17 @@ class ProductWidget extends ConsumerWidget {
                   const SizedBox(height: 8),
                   // Kaufen-Button
                   ElevatedButton(
-                    onPressed: transactionAmount >= product.price &&
-                            product.quantity > 0
+                    onPressed: transactionAmount >= product.price && product.quantity > 0
                         ? () async {
+                            if (!stackManager.canBuy(product)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Nicht genügend Wechselgeld verfügbar.',
+                                  ),
+                                ),
+                              );
+                            }
                             // Sound abspielen
                             final player = AudioPlayer();
                             await player.play(
@@ -126,43 +131,13 @@ class ProductWidget extends ConsumerWidget {
                             );
 
                             // Produkt kaufen
-                            stackManager.addRevenue(product.price);
-                            ref
-                                .read(transactionProvider.notifier)
-                                .resetTransaction();
-                            stackManager.reduceProductStock(product.id);
-                            onProductPurchased(product.name, product.image);
-
-                            // Wechselgeld berechnen
-                            double changeAmount =
-                                transactionAmount - product.price;
-                            if (changeAmount > 0) {
-                              List<double> change = stackManager
-                                  .calculateChange(changeAmount);
-                              if (change.isNotEmpty) {
-                                onProductPurchased(
-                                    'Wechselgeld: Ł ${changeAmount.toStringAsFixed(2)}',
-                                    '');
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Nicht genügend Wechselgeld verfügbar.',
-                                    ),
-                                  ),
-                                );
-                              }
-                            }
+                            stackManager.buy(product);
 
                             // Zum AusgabeScreen navigieren
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AusgabeScreen(
-                                  changeAmount:
-                                      changeAmount > 0 ? changeAmount : 0,
-                                  purchasedProducts: [product.image],
-                                ),
+                                builder: (context) => AusgabeScreen(),
                               ),
                             );
                           }

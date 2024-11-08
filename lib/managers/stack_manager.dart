@@ -1,130 +1,236 @@
-import '../models/coin.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:snackautomat/managers/stack_state.dart';
+import 'package:snackautomat/providers/coin_provider.dart';
+
 import '../models/product.dart';
 
-class StackManager {
-  final List<Product> _products;
-  final Map<double, int> _coinInventory;
-  double _totalRevenue = 0.0; // Initial total revenue set to 0 coins Einnahmen
-  double _walletBalance = 200.0; // Initial wallet balance set to 200 coins
-  final List<String> _transactionHistory = [];
+final refStack = NotifierProvider<StackManager, StackState>(() => StackManager());
+
+class StackManager extends Notifier<StackState> {
+  StackState build() => StackState(
+        products: [
+          Product(
+            id: 1,
+            name: 'Lays KFC Chips',
+            price: 150,
+            quantity: 10,
+            image: 'assets/products/Lays KFC Chips.png',
+          ),
+
+          Product(
+            id: 2,
+            name: 'Adelholzener Naturell 0,5 l',
+            price: 170,
+            quantity: 10,
+            image: 'assets/products/Adelholzener Naturell 0,5 l.png',
+          ),
+
+          Product(
+            id: 3,
+            name: 'Ball und Ovidias belgische Schokolade',
+            price: 200,
+            quantity: 10,
+            image: 'assets/products/Ball und Ovidias belgische Schokolade.png',
+          ),
+
+          Product(
+            id: 4,
+            name: 'BeefJerky',
+            price: 250,
+            quantity: 10,
+            image: 'assets/products/BeefJerky.png',
+          ),
+
+          Product(
+            id: 5,
+            name: 'Celebrations Pop Geschenkbox',
+            price: 270,
+            quantity: 10,
+            image: 'assets/products/Celebrations Pop Geschenkbox.png',
+          ),
+
+          Product(
+            id: 6,
+            name: 'Coca Cola Dose 0,33 l',
+            price: 120,
+            quantity: 10,
+            image: 'assets/products/Coca Cola Dose 0,33 l.png',
+          ),
+
+          Product(
+            id: 7,
+            name: 'Crunchy Nuts Spicy',
+            price: 115,
+            quantity: 10,
+            image: 'assets/products/Crunchy Nuts Spicy.png',
+          ),
+
+          Product(
+            id: 8,
+            name: 'Elephant Prezels',
+            price: 120,
+            quantity: 10,
+            image: 'assets/products/Elephant Prezels.png',
+          ),
+
+          Product(
+            id: 9,
+            name: 'Fanta Dose 0,33 l',
+            price: 170,
+            quantity: 10,
+            image: 'assets/products/Fanta Dose 0,33 l.png',
+          ),
+
+          Product(
+            id: 10,
+            name: 'Iso Sport Drink light 0,25 l',
+            price: 190,
+            quantity: 10,
+            image: 'assets/products/Iso Sport Drink light 0,25 l.png',
+          ),
+
+          Product(
+            id: 11,
+            name: 'Kichererbsen Chips',
+            price: 170,
+            quantity: 10,
+            image: 'assets/products/Kichererbsen Chips.png',
+          ),
+
+          Product(
+            id: 12,
+            name: 'Knoppers',
+            price: 090,
+            quantity: 10,
+            image: 'assets/products/Knoppers.png',
+          ),
+
+          Product(
+            id: 13,
+            name: 'Knorr Pasta Pot XXL',
+            price: 170,
+            quantity: 10,
+            image: 'assets/products/Knorr Pasta Pot XXL.png',
+          ),
+
+          Product(
+            id: 14,
+            name: 'Knusprige Krabbencracker',
+            price: 150,
+            quantity: 10,
+            image: 'assets/products/Knusprige Krabbencracker.png',
+          ),
+
+          Product(
+            id: 15,
+            name: 'Kortoffel Sticks',
+            price: 120,
+            quantity: 10,
+            image: 'assets/products/Kortoffel Sticks.png',
+          ),
+
+          Product(
+            id: 16,
+            name: 'Elephant Prezels',
+            price: 150,
+            quantity: 10,
+            image: 'assets/products/Elephant Prezels.png',
+          ),
+
+          Product(
+            id: 18,
+            name: 'BeefJerky',
+            price: 270,
+            quantity: 10,
+            image: 'assets/products/BeefJerky.png',
+          ),
+
+          Product(
+            id: 19,
+            name: 'Celebrations Pop Geschenkbox',
+            price: 150,
+            quantity: 10,
+            image: 'assets/products/Celebrations Pop Geschenkbox.png',
+          ),
+
+          Product(
+            id: 20,
+            name: 'Coca Cola Dose 0,33 l',
+            price: 150,
+            quantity: 10,
+            image: 'assets/products/Coca Cola Dose 0,33 l.png',
+          ),
+
+          Product(
+            id: 21,
+            name: 'Crunchy Nuts Spicy',
+            price: 150,
+            quantity: 10,
+            image: 'assets/products/Crunchy Nuts Spicy.png',
+          ),
+
+          // Weitere Produkte hinzufügen...
+        ],
+        coinInventory: {},
+        totalRevenue: 0,
+        walletBalance: 20000,
+        transaction: 0,
+        wechselgeld: 0,
+        ausgabefach: [],
+      );
 
   // Constructor to initialize products and coins
-  StackManager({
-    required List<Product> initialProducts,
-    required List<Coin> initialCoins,
-  })  : _products = initialProducts,
-        _coinInventory = {
-          for (var coin in initialCoins) coin.value: 10,
-        };
+  StackManager();
 
   // Get the current wallet balance
-  double get walletBalance => _walletBalance;
-
-  // Update wallet balance by deducting the specified amount
-  void updateWalletBalance(double amount) {
-    if (_walletBalance - amount >= 0) {
-      _walletBalance -= amount;
-    } else {
-      throw Exception('Nicht genug Guthaben im Wallet.');
-    }
-  }
+  // int get walletBalance => state.walletBalance;
 
   // Handle coin insertion: deduct from wallet, add coin to inventory, and add to revenue
-  void onCoinInserted(double coinValue) {
-    try {
-      // Deduct the coin value from the customer's wallet
-      deductFromCoinstack(coinValue);
-      
-      // Add the coin to the inventory (admin area)
-      addCoinToInventory(coinValue);
-      
-      // Add the coin value to the total revenue (profit)
-      addRevenue(coinValue);
-      
-      // Log the transaction
-      addTransaction('Münze $coinValue eingeworfen.');
-    } catch (e) {
-      print('Fehler: ${e.toString()}');
-    }
-  }
-
-  // Deduct a specific coin value from the wallet balance
-  void deductFromCoinstack(double coinValue) {
-    updateWalletBalance(coinValue);
-  }
-
-  // Add a transaction record to the history
-  void addTransaction(String transaction) {
-    _transactionHistory.add(transaction);
-  }
-
-  // Retrieve the transaction history
-  List<String> get transactionHistory => _transactionHistory;
-
-  // Retrieve the list of products
-  List<Product> get products => _products;
-
-  // Retrieve the coin inventory
-  Map<double, int> get coinInventory => _coinInventory;
-
-  // Retrieve the total revenue
-  double get totalRevenue => _totalRevenue;
+  void onCoinInserted(int coinValue) {}
 
   // Get a product by its ID
   Product getProductById(int productId) {
-    return _products.firstWhere(
+    return state.products.firstWhere(
       (product) => product.id == productId,
       orElse: () => throw Exception('Kein Produkt mit der ID $productId gefunden.'),
     );
   }
 
-  // Decrease product stock when a product is purchased
-  void reduceProductStock(int productId) {
-    final product = getProductById(productId);
-    if (product.quantity > 0) {
-      product.quantity--;
-    } else {
-      throw Exception('Produkt ausverkauft.');
-    }
-  }
-
-  // Add amount to total revenue
-  void addRevenue(double amount) {
-    _totalRevenue += amount;
-  }
-
-  // Add a coin to the inventory
-  void addCoinToInventory(double coinValue) {
-    if (_coinInventory.containsKey(coinValue)) {
-      _coinInventory[coinValue] = _coinInventory[coinValue]! + 1;
-    } else {
-      _coinInventory[coinValue] = 1;
-    }
-  }
-
   // Restock all coins to the default level of 10 each
   void restockAllCoins() {
-    _coinInventory.updateAll((key, value) => 10);
+    final newCoins = <int, int>{};
+    for (final coin in allCoins) {
+      newCoins[coin.value] = 10;
+    }
+    state = state.copyWith(coinInventory: newCoins);
   }
 
   // Restock a specific product by ID
   void restockProduct(int productId, int amount) {
-    final product = getProductById(productId);
-    product.quantity += amount;
+    final oldProduct = getProductById(productId);
+    final newProduct = oldProduct.copyWith(
+      quantity: oldProduct.quantity + amount,
+    );
+    final newProducts = state.products
+        .map(
+          (p) => p != oldProduct ? p : newProduct,
+        )
+        .toList();
+    state = state.copyWith(products: newProducts);
   }
 
   // Calculate change based on the change amount and update coin inventory
-  List<double> calculateChange(double changeAmount) {
-    List<double> change = [];
-    double remainingAmount = double.parse(changeAmount.toStringAsFixed(2));
-    List<double> coinValues = _coinInventory.keys.toList()..sort((a, b) => b.compareTo(a));
+  List<int> calculateChange(int changeAmount) {
+    List<int> change = [];
+    int remainingAmount = changeAmount;
+    List<int> coinValues = state.coinInventory.keys.toList()..sort((a, b) => b.compareTo(a));
 
     for (var coinValue in coinValues) {
-      int coinCount = _coinInventory[coinValue]!;
+      int coinCount = state.coinInventory[coinValue]!;
       while (remainingAmount >= coinValue && coinCount > 0) {
-        remainingAmount = double.parse((remainingAmount - coinValue).toStringAsFixed(2));
+        remainingAmount = remainingAmount - coinValue;
         coinCount--;
-        _coinInventory[coinValue] = coinCount;
+        // state.coinInventory[coinValue] = coinCount;
         change.add(coinValue);
       }
     }
@@ -133,10 +239,42 @@ class StackManager {
       return change;
     } else {
       // Reset the coin inventory if exact change cannot be provided
-      for (var coin in change) {
-        _coinInventory[coin] = _coinInventory[coin]! + 1;
-      }
+      // for (var coin in change) {
+      //   // state.coinInventory[coin] = state.coinInventory[coin]! + 1;
+      // }
       return [];
     }
+  }
+
+  void addCoin(int value) {
+    state = state.copyWith(transaction: state.transaction + value);
+  }
+
+  void resetTransaction() {
+    state = state.copyWith(transaction: 0);
+  }
+
+  void buy(Product product) {}
+
+  bool canBuy(Product product) {
+    if (state.transaction < product.price) return false;
+    if (state.walletBalance < 0) return false;
+    if (product.quantity < 1) return false;
+    if (!canGiveChange(state.transaction - product.price)) return false;
+    return true;
+  }
+
+  bool canGiveChange(int change) {
+    int remainingAmount = change;
+    List<int> coinValues = state.coinInventory.keys.toList()..sort((a, b) => b.compareTo(a));
+    for (var coinValue in coinValues) {
+      int coinCount = state.coinInventory[coinValue]!;
+      while (remainingAmount >= coinValue && coinCount > 0 && remainingAmount > 0) {
+        remainingAmount = remainingAmount - coinValue;
+        coinCount--;
+      }
+    }
+    if (remainingAmount == 0) return true;
+    return false;
   }
 }

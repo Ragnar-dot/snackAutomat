@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:snackautomat/managers/stack_manager.dart';
+import 'package:snackautomat/providers/coin_provider.dart';
 import 'package:snackautomat/providers/secure_storage_provider.dart';
-import '../providers/product_provider.dart';
-import '../providers/coin_provider.dart';
 import '../widgets/product_widget.dart';
 import '../widgets/coin_widget.dart';
 import '../widgets/display_widget.dart';
@@ -49,9 +49,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    final products = ref.watch(productListProvider);
-    final coins = ref.watch(coinListProvider);
-    final wallet = Wallet(value: 200.0, image: 'assets/wallet/wallet.png'); // Beispiel-Wallet
+    final stack = ref.watch(refStack);
+    final products = stack.products;
 
     return Scaffold(
       appBar: AppBar(
@@ -111,11 +110,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               itemBuilder: (context, index) {
                 return ProductWidget(
                   product: products[index],
-                  onProductPurchased: (productName, productImage) {
-                    setState(() {
-                      outputItems.add(productImage);
-                    });
-                  },
                 );
               },
             ),
@@ -124,13 +118,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
             height: 120,
             child: Row(
               children: [
-                WalletWidget(wallet: wallet),
+                WalletWidget(image: 'assets/wallet/wallet.png'),
                 Expanded(
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: coins.length,
+                    itemCount: allCoins.length,
                     itemBuilder: (context, index) {
-                      return CoinWidget(coin: coins[index]);
+                      return CoinWidget(coin: allCoins[index]);
                     },
                   ),
                 ),

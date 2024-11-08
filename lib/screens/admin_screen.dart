@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snackautomat/managers/stack_manager.dart';
-import '../providers/stack_manager_provider.dart';
 import '../models/product.dart';
 
 class AdminScreen extends ConsumerWidget {
@@ -9,7 +8,8 @@ class AdminScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final stackManager = ref.watch(stackManagerProvider);
+    final stack = ref.watch(refStack);
+    final stackManager = ref.read(refStack.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -21,7 +21,7 @@ class AdminScreen extends ConsumerWidget {
           child: Column(
             children: [
               Text(
-                'Gesamtumsatz: Coin ${stackManager.totalRevenue.toStringAsFixed(2)}',
+                'Gesamtumsatz: Coin ${stack.totalRevenue.toStringAsFixed(2)}',
                 style: const TextStyle(fontSize: 24),
               ),
               const SizedBox(height: 20),
@@ -42,10 +42,10 @@ class AdminScreen extends ConsumerWidget {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: stackManager.coinInventory.length,
+                itemCount: stack.coinInventory.length,
                 itemBuilder: (context, index) {
-                  double coinValue = stackManager.coinInventory.keys.elementAt(index);
-                  int coinCount = stackManager.coinInventory[coinValue]!;
+                  int coinValue = stack.coinInventory.keys.elementAt(index);
+                  int coinCount = stack.coinInventory[coinValue]!;
                   return ListTile(
                     title: Text('Coin ${coinValue.toStringAsFixed(2)}'),
                     trailing: Text('Anzahl: $coinCount'),
@@ -60,15 +60,15 @@ class AdminScreen extends ConsumerWidget {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: stackManager.products.length,
+                itemCount: stack.products.length,
                 itemBuilder: (context, index) {
-                  Product product = stackManager.products[index];
+                  Product product = stack.products[index];
                   return ListTile(
                     title: Text(product.name),
                     subtitle: Text('Preis: Coin ${product.price.toStringAsFixed(2)}'),
                     trailing: Text('Anzahl: ${product.quantity}'),
                     onTap: () {
-                      _showRestockDialog(context, product, stackManager);
+                      _showRestockDialog(context, product, ref);
                     },
                   );
                 },
@@ -81,9 +81,9 @@ class AdminScreen extends ConsumerWidget {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: stackManager.transactionHistory.length,
+                itemCount: stack.transactionHistory.length,
                 itemBuilder: (context, index) {
-                  String transaction = stackManager.transactionHistory[index];
+                  String transaction = stack.transactionHistory[index];
                   return ListTile(
                     title: Text(transaction),
                   );
@@ -96,10 +96,10 @@ class AdminScreen extends ConsumerWidget {
     );
   }
 
-  void _showRestockDialog(BuildContext context, Product product, StackManager stackManager) {
+  void _showRestockDialog(BuildContext context, Product product, WidgetRef ref) {
     // ignore: no_leading_underscores_for_local_identifiers
     TextEditingController _quantityController = TextEditingController();
-
+    final stackManager = ref.read(refStack.notifier);
     showDialog(
       context: context,
       builder: (context) {
