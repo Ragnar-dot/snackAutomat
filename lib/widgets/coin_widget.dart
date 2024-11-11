@@ -12,28 +12,33 @@ class CoinWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final stackManager = ref.read(refStack.notifier);
-    // final stack = ref.watch(refStack);
 
     return GestureDetector(
-      // GestureDetector für die Interaktion mit dem Coin
+      // Interaction with the Coin
       onTap: () async {
-        // Abspielen des Sounds
+        // Play sound
         final player = AudioPlayer();
         await player.play(AssetSource('sounds/coinsound.mp3'));
 
-        // Bestehende Funktionalität
+        // Add coin to stack
         stackManager.addCoin(coin.value);
       },
       child: Container(
-        width: 40,
-        margin: const EdgeInsets.all(15.0),
+        width: 50, // Increased width for better spacing
+        margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0), // Adjusted margin
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               coin.image,
-              height: 40,
+              height: 35,
             ),
-          Text('Coin ${(coin.value / 100).toStringAsFixed(2)} Ł'),
+            const SizedBox(height: 8), // Space between image and text
+            Text(
+              'Coin ${(coin.value / 100).toStringAsFixed(2)} Ł',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 12), // Adjust text size if needed
+            ),
           ],
         ),
       ),

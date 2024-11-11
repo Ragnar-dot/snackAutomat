@@ -18,42 +18,49 @@ class AusgabeScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Display calculated Wechselgeld from stack
+            // Display Wechselgeld
             Text(
-              'Wechselgeld: Ł ${(stack.wechselgeld / 100).toStringAsFixed(2)}', // Display as float for clarity
+              'Wechselgeld: Ł ${(stack.wechselgeld / 100).toStringAsFixed(2)}',
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),
             const Text(
-              'Ihr Produkt:',
+              'Ihre Produkte:',
               style: TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),
-            // Display the last purchased product
+            // Display all purchased products
             Expanded(
               child: stack.ausgabefach.isNotEmpty
-                  ? Card(
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            stack.ausgabefach.last.image, // Display last purchased product image
-                            height: 250,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.broken_image, size: 250);
-                            },
+                  ? ListView.builder(
+                      itemCount: stack.ausgabefach.length,
+                      itemBuilder: (context, index) {
+                        final product = stack.ausgabefach[index];
+                        return Card(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                product.image,
+                                height: 150,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(Icons.broken_image, size: 150);
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                product.name,
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Preis: Ł ${(product.price / 100).toStringAsFixed(2)}',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            stack.ausgabefach.last.name,
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Preis: Ł ${(stack.ausgabefach.last.price / 100).toStringAsFixed(2)}', // Display price as float
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ],
-                      ),
+                        );
+                      },
                     )
                   : const Center(
                       child: Text(

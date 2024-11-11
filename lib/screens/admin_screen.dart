@@ -21,7 +21,7 @@ class AdminScreen extends ConsumerWidget {
           child: Column(
             children: [
               Text(
-                'Gesamtumsatz: Coin ${stack.totalRevenue.toStringAsFixed(2)}',
+                'Gesamtumsatz: Ł ${(stack.totalRevenue / 100).toStringAsFixed(2)}',
                 style: const TextStyle(fontSize: 24),
               ),
               const SizedBox(height: 20),

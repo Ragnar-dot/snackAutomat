@@ -179,33 +179,46 @@ class StackManager extends Notifier<StackState> {
         ausgabefach: [],
       );
 
-  // Constructor to initialize products and coins
   StackManager();
 
-  // Get the current wallet balance
-  // int get walletBalance => state.walletBalance;
+  /// Method to handle buying a product
+void buy(Product product) {
+  if (canBuy(product)) {
+    // Calculate change based on transaction amount and product price
+    int changeAmount = state.transaction - product.price;
+    List<int> changeCoins = calculateChange(changeAmount);
+    int totalChange = changeCoins.fold(0, (sum, coin) => sum + coin);
 
-  // Handle coin insertion: deduct from wallet, add coin to inventory, and add to revenue
-  void onCoinInserted(int coinValue) {}
+    // Update state with purchased product, calculated change, and total revenue
+    state = state.copyWith(
+      ausgabefach: [...state.ausgabefach, product], // Add product to output slot
+      wechselgeld: totalChange, // Set the calculated change
+      totalRevenue: state.totalRevenue + product.price, // Update total revenue
+    );
 
-  // Get a product by its ID
-  Product getProductById(int productId) {
-    return state.products.firstWhere(
-      (product) => product.id == productId,
-      orElse: () => throw Exception('Kein Produkt mit der ID $productId gefunden.'),
+    // Reduce the quantity of the purchased product
+    final updatedProduct = product.copyWith(quantity: product.quantity - 1);
+    final updatedProducts = state.products.map((p) => p.id == product.id ? updatedProduct : p).toList();
+    state = state.copyWith(products: updatedProducts);
+
+    // Add change back to wallet and reset transaction
+    state = state.copyWith(
+      walletBalance: state.walletBalance + totalChange, // Add change to wallet
+      transaction: 0, // Reset transaction amount after purchase
     );
   }
+}
 
-  // Restock all coins to the default level of 10 each
+  /// Method to restock all coins in the machine to a default level
   void restockAllCoins() {
     final newCoins = <int, int>{};
     for (final coin in allCoins) {
-      newCoins[coin.value] = 10;
+      newCoins[coin.value] = 10; // Assuming 10 coins of each denomination by default
     }
     state = state.copyWith(coinInventory: newCoins);
   }
 
-  // Restock a specific product by ID
+  /// Method to restock a specific product by ID
   void restockProduct(int productId, int amount) {
     final oldProduct = getProductById(productId);
     final newProduct = oldProduct.copyWith(
@@ -213,94 +226,80 @@ class StackManager extends Notifier<StackState> {
     );
     final newProducts = state.products
         .map(
-          (p) => p != oldProduct ? p : newProduct,
+          (p) => p.id == productId ? newProduct : p,
         )
         .toList();
     state = state.copyWith(products: newProducts);
   }
 
-  // Calculate change based on the change amount and update coin inventory
+  /// Utility to get a product by its ID
+  Product getProductById(int productId) {
+    return state.products.firstWhere(
+      (product) => product.id == productId,
+      orElse: () => throw Exception('Kein Produkt mit der ID $productId gefunden.'),
+    );
+  }
+
+  /// Utility method to reset the transaction
+  void resetTransaction() {
+    state = state.copyWith(transaction: 0);
+  }
+
+  /// Method to reset the transaction and return the amount to the wallet
+  void resetTransactionAndReturnToWallet() {
+    state = state.copyWith(
+      walletBalance: state.walletBalance + state.transaction,
+      transaction: 0,
+    );
+  }
+
+  /// Method to calculate if the customer can afford the product and if change can be provided
+  bool canBuy(Product product) {
+    return state.transaction >= product.price &&
+           state.walletBalance >= 0 &&
+           product.quantity > 0 &&
+           canGiveChange(state.transaction - product.price);
+  }
+
+  /// Method to calculate change based on the change amount and update coin inventory
   List<int> calculateChange(int changeAmount) {
     List<int> change = [];
     int remainingAmount = changeAmount;
     List<int> coinValues = state.coinInventory.keys.toList()..sort((a, b) => b.compareTo(a));
 
     for (var coinValue in coinValues) {
-      int coinCount = state.coinInventory[coinValue]!;
+      int coinCount = state.coinInventory[coinValue] ?? 0;
       while (remainingAmount >= coinValue && coinCount > 0) {
-        remainingAmount = remainingAmount - coinValue;
+        remainingAmount -= coinValue;
         coinCount--;
-        // state.coinInventory[coinValue] = coinCount;
         change.add(coinValue);
       }
     }
 
-    if (remainingAmount == 0) {
-      return change;
-    } else {
-      // Reset the coin inventory if exact change cannot be provided
-      // for (var coin in change) {
-      //   // state.coinInventory[coin] = state.coinInventory[coin]! + 1;
-      // }
-      return [];
-    }
+    return remainingAmount == 0 ? change : [];
   }
 
-  void addCoin(int value) {
-    state = state.copyWith(walletBalance: state.walletBalance - value);
-    state = state.copyWith(transaction: state.transaction + value);
-  }
-
-  void resetTransaction() {
-    state = state.copyWith(transaction: 0);
-  }
-
-void buy(Product product) {
-    if (canBuy(product)) { 
-        // Reset transaction amount after purchase
-        resetTransaction();
-
-        // Calculate the total change amount by summing the list from calculateChange
-        List<int> changeCoins = calculateChange(state.transaction - product.price);
-        int totalChange = changeCoins.fold(0, (sum, coin) => sum + coin);
-
-        // Update the state with the purchased product and calculated total change
-        state = state.copyWith(
-          ausgabefach: [...state.ausgabefach, product],
-          wechselgeld: totalChange,
-        );
-
-        // Reduce the quantity of the purchased product
-        final updatedProduct = product.copyWith(quantity: product.quantity - 1);
-        final updatedProducts = state.products.map((p) => p.id == product.id ? updatedProduct : p).toList();
-        state = state.copyWith(products: updatedProducts);
-    }
-}
-
-  bool canBuy(Product product) {
-    if (state.transaction < product.price) return false;
-    if (state.walletBalance < 0) return false;
-    if (product.quantity < 1) return false;
-    if (!canGiveChange(state.transaction - product.price)) return false;
-    return true;
-  }
-
+  /// Checks if the machine can provide the exact change with the available coins
   bool canGiveChange(int change) {
     int remainingAmount = change;
     List<int> coinValues = state.coinInventory.keys.toList()..sort((a, b) => b.compareTo(a));
     for (var coinValue in coinValues) {
-      int coinCount = state.coinInventory[coinValue]!;
-      while (remainingAmount >= coinValue && coinCount > 0 && remainingAmount > 0) {
-        remainingAmount = remainingAmount - coinValue;
+      int coinCount = state.coinInventory[coinValue] ?? 0;
+      while (remainingAmount >= coinValue && coinCount > 0) {
+        remainingAmount -= coinValue;
         coinCount--;
       }
     }
-    if (remainingAmount == 0) return true;
-    return false;
+    return remainingAmount == 0;
   }
 
-
-  
+  /// Adds a coin to the transaction, deducting it from the wallet balance
+  void addCoin(int value) {
+    state = state.copyWith(
+      walletBalance: state.walletBalance - value,
+      transaction: state.transaction + value,
+    );
+  }
 }
 
 

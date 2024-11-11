@@ -3,6 +3,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snackautomat/managers/stack_manager.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:snackautomat/providers/coin_provider.dart';
 import 'package:snackautomat/screens/admin_screen.dart';
 import 'package:snackautomat/screens/vendor_screen.dart';
@@ -24,6 +25,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final stack = ref.watch(refStack);
+    final stackManager = ref.read(refStack.notifier);
     final products = stack.products;
 
     return Scaffold(
@@ -60,7 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           IconButton(
             iconSize: 45,
-            icon: const Icon(Icons.key), // No animation
+            icon: const Icon(Icons.key),
             onPressed: () {
               _showPasswordDialog();
             },
@@ -104,8 +106,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ],
               ),
             ),
-          ],
-        ),
+            // Reset Button
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(CupertinoIcons.multiply_square),
+                      iconSize: 60.0,
+                      onPressed: () {
+                        stackManager.resetTransactionAndReturnToWallet();
+                      },
+                    ),
+                    const SizedBox(height: 4), // Adds a bit of space between the icon and the text
+                    const Text(
+                      'Transaktion abbrechen',
+                      style: TextStyle(fontSize: 14), // Adjust font size as needed
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        
       ),
     );
   }
