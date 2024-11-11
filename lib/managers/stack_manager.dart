@@ -256,9 +256,24 @@ class StackManager extends Notifier<StackState> {
   }
 
 void buy(Product product) {
-    if (canBuy(product)) { // Ensure canBuy is called as a method
-        resetTransaction(); // Reset transaction amount after purchase
-        // Additional purchase logic can go here
+    if (canBuy(product)) { 
+        // Reset transaction amount after purchase
+        resetTransaction();
+
+        // Calculate the total change amount by summing the list from calculateChange
+        List<int> changeCoins = calculateChange(state.transaction - product.price);
+        int totalChange = changeCoins.fold(0, (sum, coin) => sum + coin);
+
+        // Update the state with the purchased product and calculated total change
+        state = state.copyWith(
+          ausgabefach: [...state.ausgabefach, product],
+          wechselgeld: totalChange,
+        );
+
+        // Reduce the quantity of the purchased product
+        final updatedProduct = product.copyWith(quantity: product.quantity - 1);
+        final updatedProducts = state.products.map((p) => p.id == product.id ? updatedProduct : p).toList();
+        state = state.copyWith(products: updatedProducts);
     }
 }
 

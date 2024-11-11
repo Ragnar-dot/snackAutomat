@@ -3,15 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snackautomat/managers/stack_manager.dart';
 
 class AusgabeScreen extends ConsumerWidget {
-  const AusgabeScreen({
-    super.key,
-  });
+  const AusgabeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final stack = ref.watch(refStack);
-    final transactionAmount = stack.transaction;
-    final stackManager = ref.read(refStack.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -53,7 +49,7 @@ class AusgabeScreen extends ConsumerWidget {
                             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            'Preis: Ł ${stack.ausgabefach.last.price ~/ 100}', // Display price as an integer
+                            'Preis: Ł ${(stack.ausgabefach.last.price / 100).toStringAsFixed(2)}', // Display price as float
                             style: const TextStyle(fontSize: 14),
                           ),
                         ],
