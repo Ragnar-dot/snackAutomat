@@ -31,7 +31,7 @@ class CoinWidget extends ConsumerWidget {
           children: [
             Image.asset(
               coin.image,
-              height: 30,
+              height: 40,
             ),
           Text('Coin ${(coin.value / 100).toStringAsFixed(2)} Ł'),
           ],

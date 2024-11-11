@@ -1,12 +1,9 @@
 import 'dart:convert';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snackautomat/managers/stack_manager.dart';
 import 'package:snackautomat/providers/coin_provider.dart';
-
 import 'package:snackautomat/screens/admin_screen.dart';
 import 'package:snackautomat/screens/vendor_screen.dart';
 import '../widgets/product_widget.dart';
@@ -21,28 +18,8 @@ class HomeScreen extends ConsumerStatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<String> outputItems = [];
-
-  late AnimationController _blinkController;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _blinkController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 9000),
-    )..repeat(reverse: true);
-
-    _animation = Tween<double>(begin: 0, end: 6).animate(_blinkController);
-  }
-
-  @override
-  void dispose() {
-    _blinkController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,100 +60,98 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
           ),
           IconButton(
             iconSize: 45,
-            icon: FadeTransition(
-              opacity: _animation,
-              child: const Icon(Icons.key),
-            ),
+            icon: const Icon(Icons.key), // No animation
             onPressed: () {
               _showPasswordDialog();
             },
           ),
         ],
       ),
-      body: Column(
-        children: [
-          const DisplayWidget(),
-          Expanded( // Expanded sorgt dafür, dass die GridView den verfügbaren Platz nutzt
-            child: GridView.builder(
-              padding: const EdgeInsets.all(1.0),
-              itemCount: products.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.80
-              ,
-              ),
-              itemBuilder: (context, index) {
-                return ProductWidget(
-                  product: products[index],
-                );
-              },
-            ),
-          ),
-          SizedBox(
-            height: 140,
-            child: Row(
-              children: [
-                const WalletWidget(image: 'assets/Wallet/Wallet.png'),
-                Expanded(
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: allCoins.length,
-                    itemBuilder: (context, index) {
-                      return CoinWidget(coin: allCoins[index]);
-                    },
-                  ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const DisplayWidget(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: GridView.builder(
+                padding: const EdgeInsets.all(2.0),
+                itemCount: products.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.80,
                 ),
-              ],
+                itemBuilder: (context, index) {
+                  return ProductWidget(
+                    product: products[index],
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: 130,
+              child: Row(
+                children: [
+                  const WalletWidget(image: 'assets/Wallet/Wallet.png'),
+                  Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: allCoins.length,
+                      itemBuilder: (context, index) {
+                        return CoinWidget(coin: allCoins[index]);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-void _showPasswordDialog() {
-  TextEditingController passwordController = TextEditingController();
+  void _showPasswordDialog() {
+    TextEditingController passwordController = TextEditingController();
 
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text("Admin Login"),
-        content: TextField(
-          controller: passwordController,
-          obscureText: true,
-          decoration: const InputDecoration(
-            labelText: "Passwort",
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Admin Login"),
+          content: TextField(
+            controller: passwordController,
+            obscureText: true,
+            decoration: const InputDecoration(
+              labelText: "Passwort",
+            ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              // Passwort auf "1234" setzen
-              if (passwordController.text == "1234") {
+          actions: [
+            TextButton(
+              onPressed: () {
+                if (passwordController.text == "1234") {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AdminScreen()),
+                  );
+                } else {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Falsches Passwort')),
+                  );
+                }
+              },
+              child: const Text("Login"),
+            ),
+            TextButton(
+              onPressed: () {
                 Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AdminScreen()),
-                );
-              } else {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Falsches Passwort')),
-                );
-              }
-            },
-            child: const Text("Login"),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text("Abbrechen"),
-          ),
-        ],
-      );
-    },
-  );
-}
+              },
+              child: const Text("Abbrechen"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

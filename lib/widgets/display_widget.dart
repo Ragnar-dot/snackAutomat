@@ -12,43 +12,28 @@ class DisplayWidget extends ConsumerStatefulWidget {
 }
 
 class _DisplayWidgetState extends ConsumerState<DisplayWidget> {
-  int _oldTransactionAmount = 0;
-
   @override
   Widget build(BuildContext context) {
     final stack = ref.watch(refStack);
     final transactionAmount = stack.transaction;
 
-    final tween = Tween<int>(
-      begin: _oldTransactionAmount,
-      end: transactionAmount,
-    );
-
-    _oldTransactionAmount = transactionAmount;
-
     return Padding(
       padding: const EdgeInsets.all(1.0),
-      child: TweenAnimationBuilder<int>(
-        tween: tween,
-        duration: const Duration(milliseconds: 200),
-        builder: (context, value, child) {
-          return Container(
-            padding: const EdgeInsets.all(6.0), // Optional: Innenabstand hinzufügen
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(97, 75, 85, 95).withOpacity(0.5), // Hintergrundfarbe mit Opazität
-              borderRadius: BorderRadius.circular(6.0), // Optional: Abgerundete Ecken
-            ),
-            child: Text(
-              'Betrag ${(value / 100).toStringAsFixed(2)}Ł', 
-              style: const TextStyle(
-                fontSize: 18,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 255, 255, 255), // Textfarbe anpassen, um Kontrast zu gewährleisten
-              ),
-            ),
-          );
-        },
+      child: Container(
+        padding: const EdgeInsets.all(6.0), // Optional: Innenabstand hinzufügen
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(97, 75, 85, 95).withOpacity(0.5), // Hintergrundfarbe mit Opazität
+          borderRadius: BorderRadius.circular(6.0), // Optional: Abgerundete Ecken
+        ),
+        child: Text(
+          'Betrag ${(transactionAmount / 100).toStringAsFixed(2)}Ł', 
+          style: const TextStyle(
+            fontSize: 18,
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+            color: Color.fromARGB(255, 255, 255, 255), // Textfarbe anpassen, um Kontrast zu gewährleisten
+          ),
+        ),
       ),
     );
   }
