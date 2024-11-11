@@ -11,6 +11,7 @@ import '../widgets/product_widget.dart';
 import '../widgets/coin_widget.dart';
 import '../widgets/display_widget.dart';
 import '../widgets/wallet_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -36,15 +37,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           animatedTexts: [
             TypewriterAnimatedText(
               'Ihre Auswahl...',
-              textStyle: const TextStyle(
+              textStyle: GoogleFonts.vt323(  // Hier wählst du deine Google-Schriftart
                 fontSize: 35.0,
-                fontWeight: FontWeight.bold,
-                color: Color.fromARGB(147, 21, 109, 9),
+                
+                color: const Color.fromARGB(147, 21, 109, 9),
               ),
               speed: const Duration(milliseconds: 200),
             ),
           ],
-          totalRepeatCount: 60,
+          totalRepeatCount: 1000,
           pause: const Duration(milliseconds: 1000),
           displayFullTextOnTap: true,
           stopPauseOnTap: true,

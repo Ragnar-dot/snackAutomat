@@ -16,6 +16,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   audioplayers: ^6.1.0
   cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
