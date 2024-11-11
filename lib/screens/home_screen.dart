@@ -108,7 +108,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             // Reset Button
             Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(1.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

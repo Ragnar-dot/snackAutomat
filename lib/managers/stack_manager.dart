@@ -181,33 +181,42 @@ class StackManager extends Notifier<StackState> {
 
   StackManager();
 
+
   /// Method to handle buying a product
-void buy(Product product) {
-  if (canBuy(product)) {
-    // Calculate change based on transaction amount and product price
-    int changeAmount = state.transaction - product.price;
-    List<int> changeCoins = calculateChange(changeAmount);
-    int totalChange = changeCoins.fold(0, (sum, coin) => sum + coin);
+  void buy(Product product) {
+    if (canBuy(product)) {
+      // Calculate change based on transaction amount and product price
+      int changeAmount = state.transaction - product.price;
+      List<int> changeCoins = calculateChange(changeAmount);
+      int totalChange = changeCoins.fold(0, (sum, coin) => sum + coin);
 
-    // Update state with purchased product, calculated change, and total revenue
-    state = state.copyWith(
-      ausgabefach: [...state.ausgabefach, product], // Add product to output slot
-      wechselgeld: totalChange, // Set the calculated change
-      totalRevenue: state.totalRevenue + product.price, // Update total revenue
-    );
+      // Update the state with the purchased product, calculated change, total revenue, and transaction history
+      state = state.copyWith(
+        ausgabefach: [...state.ausgabefach, product], // Add product to output slot
+        wechselgeld: totalChange, // Set the calculated change
+        totalRevenue: state.totalRevenue + product.price, // Update total revenue
+        transactionHistory: [
+          ...state.transactionHistory,
+          {
+            'Produkt': product.name,
+            'Preis': (product.price / 100).toStringAsFixed(2),
+            'Zeit': DateTime.now().toString()
+          }
+        ], // Add transaction details to history
+      );
 
-    // Reduce the quantity of the purchased product
-    final updatedProduct = product.copyWith(quantity: product.quantity - 1);
-    final updatedProducts = state.products.map((p) => p.id == product.id ? updatedProduct : p).toList();
-    state = state.copyWith(products: updatedProducts);
+      // Reduce the quantity of the purchased product
+      final updatedProduct = product.copyWith(quantity: product.quantity - 1);
+      final updatedProducts = state.products.map((p) => p.id == product.id ? updatedProduct : p).toList();
+      state = state.copyWith(products: updatedProducts);
 
-    // Add change back to wallet and reset transaction
-    state = state.copyWith(
-      walletBalance: state.walletBalance + totalChange, // Add change to wallet
-      transaction: 0, // Reset transaction amount after purchase
-    );
+      // Add change back to wallet and reset transaction
+      state = state.copyWith(
+        walletBalance: state.walletBalance + totalChange, // Add change to wallet
+        transaction: 0, // Reset transaction amount after purchase
+      );
+    }
   }
-}
 
   /// Method to restock all coins in the machine to a default level
   void restockAllCoins() {
@@ -224,11 +233,7 @@ void buy(Product product) {
     final newProduct = oldProduct.copyWith(
       quantity: oldProduct.quantity + amount,
     );
-    final newProducts = state.products
-        .map(
-          (p) => p.id == productId ? newProduct : p,
-        )
-        .toList();
+    final newProducts = state.products.map((p) => p.id == productId ? newProduct : p).toList();
     state = state.copyWith(products: newProducts);
   }
 
@@ -253,7 +258,7 @@ void buy(Product product) {
     );
   }
 
-  /// Method to calculate if the customer can afford the product and if change can be provided
+  /// Method to check if the customer can afford the product and if change can be provided
   bool canBuy(Product product) {
     return state.transaction >= product.price &&
            state.walletBalance >= 0 &&
@@ -301,7 +306,6 @@ void buy(Product product) {
     );
   }
 }
-
 
 
 

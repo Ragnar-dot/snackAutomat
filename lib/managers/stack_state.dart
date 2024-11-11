@@ -8,7 +8,7 @@ class StackState {
   final int transaction;
   final int wechselgeld;
   final List<Product> ausgabefach;
-  final List<String> transactionHistory; 
+  final List<Map<String, dynamic>> transactionHistory; // Updated to store detailed transaction history
 
   StackState({
     required this.products,
@@ -18,7 +18,7 @@ class StackState {
     required this.transaction,
     required this.wechselgeld,
     required this.ausgabefach,
-    this.transactionHistory = const [], 
+    this.transactionHistory = const [], // Initialize with empty list
   });
 
   StackState copyWith({
@@ -29,7 +29,7 @@ class StackState {
     int? transaction,
     int? wechselgeld,
     List<Product>? ausgabefach,
-    List<String>? transactionHistory,
+    List<Map<String, dynamic>>? transactionHistory, // Updated with detailed transaction history
   }) {
     return StackState(
       products: products ?? this.products,

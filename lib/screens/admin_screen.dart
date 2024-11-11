@@ -19,10 +19,12 @@ class AdminScreen extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Display Total Revenue
               Text(
                 'Gesamtumsatz: Ł ${(stack.totalRevenue / 100).toStringAsFixed(2)}',
-                style: const TextStyle(fontSize: 24),
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -35,9 +37,11 @@ class AdminScreen extends ConsumerWidget {
                 child: const Text('Münzbestand nachfüllen'),
               ),
               const SizedBox(height: 20),
+              
+              // Display Coin Inventory
               const Text(
                 'Münzbestand:',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               ListView.builder(
                 shrinkWrap: true,
@@ -48,15 +52,17 @@ class AdminScreen extends ConsumerWidget {
                   int coinCount = stack.coinInventory[coinValue]!;
                   return ListTile(
                     title: Text('Coin ${(coinValue / 100).toStringAsFixed(2)} Ł'),
-                    
                     trailing: Text('Anzahl: $coinCount'),
                   );
                 },
               ),
+              
               const SizedBox(height: 20),
+
+              // Display Product Inventory
               const Text(
                 'Produktbestand:',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               ListView.builder(
                 shrinkWrap: true,
@@ -66,7 +72,7 @@ class AdminScreen extends ConsumerWidget {
                   Product product = stack.products[index];
                   return ListTile(
                     title: Text(product.name),
-                    subtitle: Text('Preis: Coin ${product.price / 100} Ł'),
+                    subtitle: Text('Preis: Ł ${(product.price / 100).toStringAsFixed(2)}'),
                     trailing: Text('Anzahl: ${product.quantity}'),
                     onTap: () {
                       _showRestockDialog(context, product, ref);
@@ -74,6 +80,32 @@ class AdminScreen extends ConsumerWidget {
                   );
                 },
               ),
+
+              const SizedBox(height: 20),
+
+              // Display Purchase History
+              const Text(
+                'Kaufhistorie:',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              stack.transactionHistory.isNotEmpty
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: stack.transactionHistory.length,
+                      itemBuilder: (context, index) {
+                        Map<String, dynamic> transaction = stack.transactionHistory[index];
+                        return ListTile(
+                          title: Text(transaction.toString()),
+                        );
+                      },
+                    )
+                  : const Center(
+                      child: Text(
+                        'Keine Transaktionen vorhanden',
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                    ),
             ],
           ),
         ),
@@ -81,6 +113,7 @@ class AdminScreen extends ConsumerWidget {
     );
   }
 
+  // Method to show the restocking dialog for a product
   void _showRestockDialog(BuildContext context, Product product, WidgetRef ref) {
     TextEditingController quantityController = TextEditingController();
     final stackManager = ref.read(refStack.notifier);
