@@ -33,7 +33,7 @@ class CoinWidget extends ConsumerWidget {
               coin.image,
               height: 30,
             ),
-            Text(' ${coin.value.toString()} Ł'),
+          Text('Coin ${(coin.value / 100).toStringAsFixed(2)} Ł'),
           ],
         ),
       ),

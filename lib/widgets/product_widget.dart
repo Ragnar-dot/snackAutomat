@@ -77,9 +77,9 @@ class ProductWidget extends ConsumerWidget {
                       color: Colors.black,
                     ),
                   ),
-                  // Preis
+                  // Preis as integer
                   Text(
-                    'Ł ${product.price.toStringAsFixed(2)}',
+                    'Ł ${(product.price / 100).toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -103,7 +103,7 @@ class ProductWidget extends ConsumerWidget {
                         )
                       : remainingAmount > 0
                           ? Text(
-                              'Noch fehlend: Ł ${remainingAmount.toStringAsFixed(2)}',
+                              'Noch fehlend: Ł ${(remainingAmount / 100)}',
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Colors.orange,

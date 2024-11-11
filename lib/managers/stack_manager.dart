@@ -247,6 +247,7 @@ class StackManager extends Notifier<StackState> {
   }
 
   void addCoin(int value) {
+    state = state.copyWith(walletBalance: state.walletBalance - value);
     state = state.copyWith(transaction: state.transaction + value);
   }
 
@@ -254,7 +255,12 @@ class StackManager extends Notifier<StackState> {
     state = state.copyWith(transaction: 0);
   }
 
-  void buy(Product product) {}
+void buy(Product product) {
+    if (canBuy(product)) { // Ensure canBuy is called as a method
+        resetTransaction(); // Reset transaction amount after purchase
+        // Additional purchase logic can go here
+    }
+}
 
   bool canBuy(Product product) {
     if (state.transaction < product.price) return false;

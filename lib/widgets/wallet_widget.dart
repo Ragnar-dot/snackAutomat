@@ -29,7 +29,7 @@ class WalletWidget extends ConsumerWidget {
               'assets/Wallet/Wallet.png',
               height: 50,
             ),
-            Text('Guthaben: ${stack.walletBalance} Ł'),
+            Text('Guthaben: ${(stack.walletBalance / 100).toStringAsFixed(2)} Ł'),
           ],
         ),
       ),

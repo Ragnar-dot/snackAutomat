@@ -10,6 +10,8 @@ class AusgabeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final stack = ref.watch(refStack);
+    final transactionAmount = stack.transaction;
+    final stackManager = ref.read(refStack.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -20,8 +22,9 @@ class AusgabeScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Display calculated Wechselgeld from stack
             Text(
-              'Wechselgeld: Ł ${stack.wechselgeld}',
+              'Wechselgeld: Ł ${(stack.wechselgeld / 100).toStringAsFixed(2)}', // Display as float for clarity
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),
@@ -30,40 +33,31 @@ class AusgabeScreen extends ConsumerWidget {
               style: TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),
+            // Display the last purchased product
             Expanded(
               child: stack.ausgabefach.isNotEmpty
-                  ? GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1,
-                        childAspectRatio: 0.75,
-                      ),
-                      itemCount: stack.ausgabefach.length,
-                      itemBuilder: (context, index) {
-                        final product = stack.ausgabefach[index];
-                        return Card(
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                product.image,
-                                height: 250,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Icon(Icons.broken_image, size: 250);
-                                },
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                product.name,
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Preis: Ł ${product.price}',
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            ],
+                  ? Card(
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            stack.ausgabefach.last.image, // Display last purchased product image
+                            height: 250,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(Icons.broken_image, size: 250);
+                            },
                           ),
-                        );
-                      },
+                          const SizedBox(height: 10),
+                          Text(
+                            stack.ausgabefach.last.name,
+                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Preis: Ł ${stack.ausgabefach.last.price ~/ 100}', // Display price as an integer
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ],
+                      ),
                     )
                   : const Center(
                       child: Text(

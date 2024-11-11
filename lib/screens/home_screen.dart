@@ -35,7 +35,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
       duration: const Duration(milliseconds: 9000),
     )..repeat(reverse: true);
 
-    _animation = Tween<double>(begin: 0, end: 200).animate(_blinkController);
+    _animation = Tween<double>(begin: 0, end: 6).animate(_blinkController);
   }
 
   @override
@@ -102,7 +102,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with SingleTickerProvid
               itemCount: products.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.85,
+                childAspectRatio: 0.80
+              ,
               ),
               itemBuilder: (context, index) {
                 return ProductWidget(

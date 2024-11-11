@@ -47,7 +47,8 @@ class AdminScreen extends ConsumerWidget {
                   int coinValue = stack.coinInventory.keys.elementAt(index);
                   int coinCount = stack.coinInventory[coinValue]!;
                   return ListTile(
-                    title: Text('Coin ${coinValue.toStringAsFixed(2)}'),
+                    title: Text('Coin ${(coinValue / 100).toStringAsFixed(2)} Ł'),
+                    
                     trailing: Text('Anzahl: $coinCount'),
                   );
                 },
@@ -65,27 +66,11 @@ class AdminScreen extends ConsumerWidget {
                   Product product = stack.products[index];
                   return ListTile(
                     title: Text(product.name),
-                    subtitle: Text('Preis: Coin ${product.price.toStringAsFixed(2)}'),
+                    subtitle: Text('Preis: Coin ${product.price / 100} Ł'),
                     trailing: Text('Anzahl: ${product.quantity}'),
                     onTap: () {
                       _showRestockDialog(context, product, ref);
                     },
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Transaktionshistorie:',
-                style: TextStyle(fontSize: 20),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: stack.transactionHistory.length,
-                itemBuilder: (context, index) {
-                  String transaction = stack.transactionHistory[index];
-                  return ListTile(
-                    title: Text(transaction),
                   );
                 },
               ),
@@ -97,16 +82,16 @@ class AdminScreen extends ConsumerWidget {
   }
 
   void _showRestockDialog(BuildContext context, Product product, WidgetRef ref) {
-    // ignore: no_leading_underscores_for_local_identifiers
-    TextEditingController _quantityController = TextEditingController();
+    TextEditingController quantityController = TextEditingController();
     final stackManager = ref.read(refStack.notifier);
+
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: Text('Nachfüllen: ${product.name}'),
           content: TextField(
-            controller: _quantityController,
+            controller: quantityController,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
               labelText: 'Anzahl',
@@ -115,7 +100,7 @@ class AdminScreen extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () {
-                int quantity = int.tryParse(_quantityController.text) ?? 0;
+                int quantity = int.tryParse(quantityController.text) ?? 0;
                 stackManager.restockProduct(product.id, quantity);
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(

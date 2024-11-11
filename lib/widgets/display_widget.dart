@@ -39,9 +39,9 @@ class _DisplayWidgetState extends ConsumerState<DisplayWidget> {
               borderRadius: BorderRadius.circular(6.0), // Optional: Abgerundete Ecken
             ),
             child: Text(
-              'Betrag: Ł $value',
+              'Betrag ${(value / 100).toStringAsFixed(2)}Ł', 
               style: const TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.bold,
                 color: Color.fromARGB(255, 255, 255, 255), // Textfarbe anpassen, um Kontrast zu gewährleisten
