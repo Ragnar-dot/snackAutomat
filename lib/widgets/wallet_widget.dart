@@ -22,12 +22,12 @@ class WalletWidget extends ConsumerWidget {
       onTap: () {},
       child: Container(
         width: 60,
-        margin: const EdgeInsets.all(25.0),
+        margin: const EdgeInsets.all(5.0),
         child: Column(
           children: [
             Image.asset(
               'assets/Wallet/Wallet.png',
-              height: 40,
+              height: 35,
             ),
             Text(
               'Guthaben: ${(stack.walletBalance / 100).toStringAsFixed(2)} Ł',

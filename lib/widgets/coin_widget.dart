@@ -25,7 +25,7 @@ class CoinWidget extends ConsumerWidget {
       },
       child: Container(
         width: 50, // Increased width for better spacing
-        margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0), // Adjusted margin
+        margin: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 1.0), // Adjusted margin
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

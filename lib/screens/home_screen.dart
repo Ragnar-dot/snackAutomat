@@ -1,4 +1,3 @@
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,9 +36,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           animatedTexts: [
             TypewriterAnimatedText(
               'Ihre Auswahl...',
-              textStyle: GoogleFonts.vt323(  // Hier wählst du deine Google-Schriftart
+              textStyle: GoogleFonts.vt323(
                 fontSize: 35.0,
-                
                 color: const Color.fromARGB(147, 21, 109, 9),
               ),
               speed: const Duration(milliseconds: 200),
@@ -75,9 +73,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           children: [
             const DisplayWidget(),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
-              child: GridView.builder(
-                padding: const EdgeInsets.all(2.0),
+              height: MediaQuery.of(context).size.height * 0.65,  // Adjusted height
+               child: GridView.builder(
+                padding: const EdgeInsets.all(6.0),
                 itemCount: products.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -91,7 +89,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
             SizedBox(
-              height: 130,
+              height: 80,
               child: Row(
                 children: [
                   const WalletWidget(image: 'assets/Wallet/Wallet.png'),
@@ -107,30 +105,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ],
               ),
             ),
-            // Reset Button
             Padding(
-                padding: const EdgeInsets.all(1.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(CupertinoIcons.multiply_square),
-                      iconSize: 40.0,
-                      onPressed: () {
-                        stackManager.resetTransactionAndReturnToWallet();
-                      },
-                    ),
-                    const SizedBox(height: 0), // Adds a bit of space between the icon and the text
-                    const Text(
-                      'Transaktion abbrechen',
-                      style: TextStyle(fontSize: 12), // Adjust font size as needed
-                    ),
-                  ],
-                ),
+              padding: const EdgeInsets.all(1.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(CupertinoIcons.multiply_square),
+                    iconSize: 25.0,
+                    onPressed: () {
+                      stackManager.resetTransactionAndReturnToWallet();
+                    },
+                  ),
+                  const SizedBox(height: 1),
+                  const Text(
+                    'Transaktion abbrechen',
+                    style: TextStyle(fontSize: 8),
+                  ),
+                ],
               ),
-            ],
-          ),
-        
+            ),
+          ],
+        ),
       ),
     );
   }

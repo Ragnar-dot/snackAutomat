@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snackautomat/managers/stack_state.dart';
-import 'package:snackautomat/models/coin.dart';
+
 import 'package:snackautomat/providers/coin_provider.dart';
 
 import '../models/product.dart';
@@ -181,7 +181,7 @@ class StackManager extends Notifier<StackState> {
         totalRevenue: 0,
         walletBalance: 20000,
         transaction: 0,
-        wechselgeld: 0,
+        wechselgeld: 100,
         ausgabefach: [],
       );
 
@@ -226,7 +226,7 @@ void buy(Product product) {
   void restockAllCoins() {
     final newCoins = <int, int>{};
     for (final coin in allCoins) {
-      newCoins[coin.value] = 10; // Assuming 10 coins of each denomination by default
+      newCoins[coin.value] = 100; // Assuming 10 coins of each denomination by default
     }
     state = state.copyWith(coinInventory: newCoins);
   }
