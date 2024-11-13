@@ -274,23 +274,28 @@ void buy(Product product) {
 List<int> calculateChange(int changeAmount) {
   List<int> change = [];
   int remainingAmount = changeAmount;
-  List<int> coinValues = state.coinInventory.keys.toList();
 
-  // Iterate through each coin value, starting from the largest to the smallest
+  // Festgelegte Münzwerte in absteigender Reihenfolge
+  List<int> coinValues = [200, 100, 50, 20];
+
+  // Durchlaufe jede Münzgröße von groß nach klein
   for (var coinValue in coinValues) {
     int availableCoins = state.coinInventory[coinValue] ?? 0;
 
-    // Use as many of this coin as possible without exceeding the remaining amount
+    // Nutze so viele Münzen wie möglich, ohne den verbleibenden Betrag zu überschreiten
     while (remainingAmount >= coinValue && availableCoins > 0) {
       remainingAmount -= coinValue;
       availableCoins--;
-      change.add(coinValue);  // Add coin to change to be returned
+      change.add(coinValue);  // Münze zum Rückgabegeld hinzufügen
     }
+
+    // Aktualisiere den Münzbestand nach Verwendung
+    state.coinInventory[coinValue] = availableCoins;
   }
 
-  // Check if we could provide the exact change
+  // Überprüfen, ob das exakte Wechselgeld zurückgegeben werden konnte
   if (remainingAmount != 0) {
-    // If exact change cannot be provided, clear the change list and return an empty list
+    // Wenn kein exaktes Wechselgeld möglich ist, die Liste leeren und eine leere Liste zurückgeben
     return [];
   }
 
