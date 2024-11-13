@@ -173,10 +173,10 @@ class StackManager extends Notifier<StackState> {
           // Weitere Produkte hinzufügen...
         ],
         coinInventory: {
-          20: 10,
-          50: 10,
-          100: 10,
-          200: 10,
+          20: 100,
+          50: 100,
+          100: 100,
+          200: 100,
         },
         totalRevenue: 0,
         walletBalance: 20000,
