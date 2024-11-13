@@ -21,15 +21,18 @@ class WalletWidget extends ConsumerWidget {
     return GestureDetector(
       onTap: () {},
       child: Container(
-        width: 80,
-        margin: const EdgeInsets.all(10.0),
+        width: 60,
+        margin: const EdgeInsets.all(25.0),
         child: Column(
           children: [
             Image.asset(
               'assets/Wallet/Wallet.png',
-              height: 50,
+              height: 40,
             ),
-            Text('Guthaben: ${(stack.walletBalance / 100).toStringAsFixed(2)} Ł'),
+            Text(
+              'Guthaben: ${(stack.walletBalance / 100).toStringAsFixed(2)} Ł',
+              style: TextStyle(fontSize: 12),
+            ),
           ],
         ),
       ),

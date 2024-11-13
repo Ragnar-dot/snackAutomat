@@ -31,9 +31,9 @@ class CoinWidget extends ConsumerWidget {
           children: [
             Image.asset(
               coin.image,
-              height: 35,
+              height: 30,
             ),
-            const SizedBox(height: 8), // Space between image and text
+            const SizedBox(height: 1), // Space between image and text
             Text(
               'Coin ${(coin.value / 100).toStringAsFixed(2)} Ł',
               textAlign: TextAlign.center,

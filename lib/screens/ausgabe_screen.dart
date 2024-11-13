@@ -7,7 +7,9 @@ class AusgabeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Access the StackManager's stack state
     final stack = ref.watch(refStack);
+    ref.watch(refStack.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -29,7 +31,7 @@ class AusgabeScreen extends ConsumerWidget {
               style: TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),
-            // Display all purchased products
+            // Display all purchased products in `ausgabefach`
             Expanded(
               child: stack.ausgabefach.isNotEmpty
                   ? ListView.builder(

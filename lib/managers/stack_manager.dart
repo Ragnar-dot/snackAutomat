@@ -193,7 +193,7 @@ class StackManager extends Notifier<StackState> {
       // Update the state with the purchased product, calculated change, total revenue, and transaction history
       state = state.copyWith(
         ausgabefach: [...state.ausgabefach, product], // Add product to output slot
-        wechselgeld: totalChange, // Set the calculated change
+        wechselgeld: changeAmount, // Set the calculated change
         totalRevenue: state.totalRevenue + product.price, // Update total revenue
         transactionHistory: [
           ...state.transactionHistory,
@@ -205,7 +205,7 @@ class StackManager extends Notifier<StackState> {
         ], // Add transaction details to history
       );
 
-      // Reduce the quantity of the purchased product
+      // Reduziere die Menge des gekauften Produkts
       final updatedProduct = product.copyWith(quantity: product.quantity - 1);
       final updatedProducts = state.products.map((p) => p.id == product.id ? updatedProduct : p).toList();
       state = state.copyWith(products: updatedProducts);

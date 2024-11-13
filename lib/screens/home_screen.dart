@@ -53,7 +53,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.home),
-            iconSize: 45,
+            iconSize: 40,
             onPressed: () {
               Navigator.pushReplacement(
                 context,
@@ -62,7 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             },
           ),
           IconButton(
-            iconSize: 45,
+            iconSize: 40,
             icon: const Icon(Icons.key),
             onPressed: () {
               _showPasswordDialog();
@@ -115,15 +115,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     IconButton(
                       icon: const Icon(CupertinoIcons.multiply_square),
-                      iconSize: 60.0,
+                      iconSize: 40.0,
                       onPressed: () {
                         stackManager.resetTransactionAndReturnToWallet();
                       },
                     ),
-                    const SizedBox(height: 4), // Adds a bit of space between the icon and the text
+                    const SizedBox(height: 0), // Adds a bit of space between the icon and the text
                     const Text(
                       'Transaktion abbrechen',
-                      style: TextStyle(fontSize: 14), // Adjust font size as needed
+                      style: TextStyle(fontSize: 12), // Adjust font size as needed
                     ),
                   ],
                 ),
