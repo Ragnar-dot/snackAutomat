@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snackautomat/managers/stack_state.dart';
+import 'package:snackautomat/models/coin.dart';
 import 'package:snackautomat/providers/coin_provider.dart';
 
 import '../models/product.dart';
@@ -20,7 +21,7 @@ class StackManager extends Notifier<StackState> {
           Product(
             id: 2,
             name: 'Adelholzener Naturell 0,5 l',
-            price: 170,
+            price: 200,
             quantity: 10,
             image: 'assets/products/Adelholzener Naturell 0,5 l.png',
           ),
@@ -44,7 +45,7 @@ class StackManager extends Notifier<StackState> {
           Product(
             id: 5,
             name: 'Celebrations Pop Geschenkbox',
-            price: 270,
+            price: 280,
             quantity: 10,
             image: 'assets/products/Celebrations Pop Geschenkbox.png',
           ),
@@ -60,7 +61,7 @@ class StackManager extends Notifier<StackState> {
           Product(
             id: 7,
             name: 'Crunchy Nuts Spicy',
-            price: 115,
+            price: 120,
             quantity: 10,
             image: 'assets/products/Crunchy Nuts Spicy.png',
           ),
@@ -76,7 +77,7 @@ class StackManager extends Notifier<StackState> {
           Product(
             id: 9,
             name: 'Fanta Dose 0,33 l',
-            price: 170,
+            price: 180,
             quantity: 10,
             image: 'assets/products/Fanta Dose 0,33 l.png',
           ),
@@ -84,7 +85,7 @@ class StackManager extends Notifier<StackState> {
           Product(
             id: 10,
             name: 'Iso Sport Drink light 0,25 l',
-            price: 190,
+            price: 180,
             quantity: 10,
             image: 'assets/products/Iso Sport Drink light 0,25 l.png',
           ),
@@ -92,7 +93,7 @@ class StackManager extends Notifier<StackState> {
           Product(
             id: 11,
             name: 'Kichererbsen Chips',
-            price: 170,
+            price: 180,
             quantity: 10,
             image: 'assets/products/Kichererbsen Chips.png',
           ),
@@ -100,7 +101,7 @@ class StackManager extends Notifier<StackState> {
           Product(
             id: 12,
             name: 'Knoppers',
-            price: 090,
+            price: 080,
             quantity: 10,
             image: 'assets/products/Knoppers.png',
           ),
@@ -108,7 +109,7 @@ class StackManager extends Notifier<StackState> {
           Product(
             id: 13,
             name: 'Knorr Pasta Pot XXL',
-            price: 170,
+            price: 180,
             quantity: 10,
             image: 'assets/products/Knorr Pasta Pot XXL.png',
           ),
@@ -140,7 +141,7 @@ class StackManager extends Notifier<StackState> {
           Product(
             id: 18,
             name: 'BeefJerky',
-            price: 270,
+            price: 280,
             quantity: 10,
             image: 'assets/products/BeefJerky.png',
           ),
@@ -171,7 +172,12 @@ class StackManager extends Notifier<StackState> {
 
           // Weitere Produkte hinzufügen...
         ],
-        coinInventory: {},
+        coinInventory: {
+          20: 10,
+          50: 10,
+          100: 10,
+          200: 10,
+        },
         totalRevenue: 0,
         walletBalance: 20000,
         transaction: 0,
@@ -180,7 +186,6 @@ class StackManager extends Notifier<StackState> {
       );
 
   StackManager();
-
 
   /// Method to handle buying a product
 void buy(Product product) {
@@ -265,28 +270,37 @@ void buy(Product product) {
            canGiveChange(state.transaction - product.price);
   }
 
-  /// Method to calculate change based on the change amount and update coin inventory
-  List<int> calculateChange(int changeAmount) {
-    List<int> change = [];
-    int remainingAmount = changeAmount;
-    List<int> coinValues = state.coinInventory.keys.toList()..sort((a, b) => b.compareTo(a));
+/// Method to calculate change based on the amount and available coin inventory
+List<int> calculateChange(int changeAmount) {
+  List<int> change = [];
+  int remainingAmount = changeAmount;
+  List<int> coinValues = state.coinInventory.keys.toList();
 
-    for (var coinValue in coinValues) {
-      int coinCount = state.coinInventory[coinValue] ?? 0;
-      while (remainingAmount >= coinValue && coinCount > 0) {
-        remainingAmount -= coinValue;
-        coinCount--;
-        change.add(coinValue);
-      }
+  // Iterate through each coin value, starting from the largest to the smallest
+  for (var coinValue in coinValues) {
+    int availableCoins = state.coinInventory[coinValue] ?? 0;
+
+    // Use as many of this coin as possible without exceeding the remaining amount
+    while (remainingAmount >= coinValue && availableCoins > 0) {
+      remainingAmount -= coinValue;
+      availableCoins--;
+      change.add(coinValue);  // Add coin to change to be returned
     }
-
-    return remainingAmount == 0 ? change : [];
   }
+
+  // Check if we could provide the exact change
+  if (remainingAmount != 0) {
+    // If exact change cannot be provided, clear the change list and return an empty list
+    return [];
+  }
+
+  return change;
+}
 
   /// Checks if the machine can provide the exact change with the available coins
   bool canGiveChange(int change) {
     int remainingAmount = change;
-    List<int> coinValues = state.coinInventory.keys.toList()..sort((a, b) => b.compareTo(a));
+    List<int> coinValues = state.coinInventory.keys.toList();
     for (var coinValue in coinValues) {
       int coinCount = state.coinInventory[coinValue] ?? 0;
       while (remainingAmount >= coinValue && coinCount > 0) {

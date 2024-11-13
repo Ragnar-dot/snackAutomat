@@ -24,7 +24,7 @@ class ProductWidget extends ConsumerWidget {
 
     return SizedBox(
       width: 200,
-      height: 300,
+      height: 500,
       child: Stack(
         children: [
           // Äußerer Container mit Glassmorphism-Rahmen
@@ -103,7 +103,7 @@ class ProductWidget extends ConsumerWidget {
                         )
                       : remainingAmount > 0
                           ? Text(
-                              'Noch fehlend: Ł ${(remainingAmount / 100)}',
+                              'Noch fehlend: Ł ${(remainingAmount / 100).toStringAsFixed(2)}',
                               style: const TextStyle(
                                 fontSize: 12,
                                 color: Colors.orange,
