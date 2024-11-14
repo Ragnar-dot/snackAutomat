@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snackautomat/managers/stack_state.dart';
 
-import 'package:snackautomat/providers/coin_provider.dart';
+
 
 import '../models/product.dart';
 

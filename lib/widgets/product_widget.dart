@@ -23,8 +23,8 @@ class ProductWidget extends ConsumerWidget {
     double remainingAmount = double.parse((product.price - transactionAmount).toStringAsFixed(2));
 
     return SizedBox(
-      width: 200,
-      height: 500,
+      width: 100,
+      height: 300,
       child: Stack(
         children: [
           // Äußerer Container mit Glassmorphism-Rahmen
@@ -40,7 +40,7 @@ class ProductWidget extends ConsumerWidget {
                   ),
                 ),
                 child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                  filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 1.0),
                   child: Container(
                     color: const Color.fromARGB(0, 241, 241, 241),
                   ),
@@ -51,9 +51,9 @@ class ProductWidget extends ConsumerWidget {
           // Innerer Container für den Card-Inhalt
           Positioned.fill(
             child: Container(
-              margin: const EdgeInsets.all(1.0), // Abstand zum Rahmen
+              margin: const EdgeInsets.all(3.0), // Abstand zum Rahmen
               decoration: BoxDecoration(
-                color: const Color.fromARGB(96, 255, 255, 255), // Hintergrundfarbe der Card
+                color: const Color.fromARGB(55, 238, 235, 235), // Hintergrundfarbe der Card
                 borderRadius: BorderRadius.circular(15.0),
               ),
               child: Column(
@@ -66,7 +66,7 @@ class ProductWidget extends ConsumerWidget {
                     width: 80,
                     fit: BoxFit.cover,
                   ),
-                  const SizedBox(height: 1),
+                  const SizedBox(height:1),
                   // Produktname
                   Text(
                     product.name,

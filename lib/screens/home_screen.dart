@@ -30,14 +30,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 204, 204, 204),
+        backgroundColor: const Color.fromARGB(118, 240, 240, 240),
         actionsIconTheme: const IconThemeData(color: Color.fromARGB(255, 24, 122, 45)),
         title: AnimatedTextKit(
           animatedTexts: [
             TypewriterAnimatedText(
               'Ihre Auswahl...',
-              textStyle: GoogleFonts.vt323(
-                fontSize: 35.0,
+              textStyle: GoogleFonts.hahmlet(
+                fontSize: 30.0,
                 color: const Color.fromARGB(147, 21, 109, 9),
               ),
               speed: const Duration(milliseconds: 200),
@@ -61,6 +61,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           IconButton(
             iconSize: 40,
+            color: const Color.fromARGB(26, 214, 51, 51),
             icon: const Icon(Icons.key),
             onPressed: () {
               _showPasswordDialog();
@@ -79,7 +80,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 itemCount: products.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.80,
+                  childAspectRatio: 0.60,
                 ),
                 itemBuilder: (context, index) {
                   return ProductWidget(
