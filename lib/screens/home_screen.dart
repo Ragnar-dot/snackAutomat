@@ -36,9 +36,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           animatedTexts: [
             TypewriterAnimatedText(
               'Ihre Auswahl...',
-              textStyle: GoogleFonts.hahmlet(
+              textStyle: GoogleFonts.tektur(
                 fontSize: 30.0,
-                color: const Color.fromARGB(147, 21, 109, 9),
+                color: const Color.fromARGB(193, 21, 109, 9),
               ),
               speed: const Duration(milliseconds: 200),
             ),
@@ -50,8 +50,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.home),
-            iconSize: 40,
+            icon: const Icon(CupertinoIcons.house_fill),
+            iconSize: 28,
             onPressed: () {
               Navigator.pushReplacement(
                 context,
@@ -60,9 +60,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             },
           ),
           IconButton(
-            iconSize: 40,
-            color: const Color.fromARGB(26, 214, 51, 51),
-            icon: const Icon(Icons.key),
+            iconSize: 30,
+            color: const Color.fromARGB(113, 214, 51, 51),
+            icon: const Icon(CupertinoIcons.lock_shield),
             onPressed: () {
               _showPasswordDialog();
             },
@@ -90,7 +90,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
             SizedBox(
-              height: 80,
+              height: 85,
               child: Row(
                 children: [
                   const WalletWidget(image: 'assets/Wallet/Wallet.png'),

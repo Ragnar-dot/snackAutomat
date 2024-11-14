@@ -21,7 +21,7 @@ class WalletWidget extends ConsumerWidget {
     return GestureDetector(
       onTap: () {},
       child: Container(
-        width: 60,
+        width: 62,
         margin: const EdgeInsets.all(5.0),
         child: Column(
           children: [

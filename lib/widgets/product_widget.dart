@@ -53,7 +53,7 @@ class ProductWidget extends ConsumerWidget {
             child: Container(
               margin: const EdgeInsets.all(3.0), // Abstand zum Rahmen
               decoration: BoxDecoration(
-                color: const Color.fromARGB(55, 238, 235, 235), // Hintergrundfarbe der Card
+                color: const Color.fromARGB(101, 255, 255, 255), // Hintergrundfarbe der Card
                 borderRadius: BorderRadius.circular(15.0),
               ),
               child: Column(
@@ -91,7 +91,7 @@ class ProductWidget extends ConsumerWidget {
                     'Verfügbar: ${product.quantity}',
                     style: const TextStyle(
                       fontSize: 12,
-                      color: Colors.black87,
+                      color: Color.fromARGB(193, 10, 104, 10),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -106,7 +106,7 @@ class ProductWidget extends ConsumerWidget {
                               'Noch fehlend: Ł ${(remainingAmount / 100).toStringAsFixed(2)}',
                               style: const TextStyle(
                                 fontSize: 12,
-                                color: Colors.orange,
+                                color: Color.fromARGB(255, 255, 8, 0),
                               ),
                             )
                           : Container(),
@@ -142,7 +142,23 @@ class ProductWidget extends ConsumerWidget {
                             );
                           }
                         : null,
-                    child: const Text('Kaufen'),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                transactionAmount >= product.price && product.quantity > 0
+                                    ? const Color.fromARGB(255, 253, 253, 253)  // Button background color when enabled
+                                    : const Color.fromARGB(0, 255, 255, 255), // Button background color when disabled
+                              ),
+                            ),
+                            child: Text(
+                              'Kaufen',
+                              style: TextStyle(
+                                color: transactionAmount >= product.price && product.quantity > 0
+                                    ? const Color.fromARGB(193, 10, 104, 10) // Text color when enabled
+                                    : const Color.fromARGB(0, 255, 255, 255), // Text color when disabled
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                    ),
                   ),
                 ],
               ),
