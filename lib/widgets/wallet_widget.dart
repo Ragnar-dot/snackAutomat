@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snackautomat/managers/stack_manager.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // class Wallet {
 //   final double value;
@@ -30,8 +31,12 @@ class WalletWidget extends ConsumerWidget {
               height: 35,
             ),
             Text(
-              'Guthaben: ${(stack.walletBalance / 100).toStringAsFixed(2)} Ł',
-              style: TextStyle(fontSize: 12),
+              'Guthaben ${(stack.walletBalance / 100).toStringAsFixed(2)} Ł',
+              style: GoogleFonts.tektur(
+            fontSize: 12.0,
+            color: const Color.fromARGB(193, 0, 0, 0),
+            fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),

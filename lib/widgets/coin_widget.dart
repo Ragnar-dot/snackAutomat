@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:snackautomat/managers/stack_manager.dart';
 import '../models/coin.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -37,8 +38,11 @@ class CoinWidget extends ConsumerWidget {
             Text(
               'Coin ${(coin.value / 100).toStringAsFixed(2)} Ł',
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12), // Adjust text size if needed
-            ),
+              style: GoogleFonts.tektur(
+            fontSize: 12.0,
+            color: const Color.fromARGB(193, 0, 0, 0),
+              ),
+          ),
           ],
         ),
       ),
