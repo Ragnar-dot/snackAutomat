@@ -172,76 +172,77 @@ class StackManager extends Notifier<StackState> {
 
           // Weitere Produkte hinzufügen...
         ],
-        coinInventory: {
-          20: 100,
-          50: 100,
-          100: 100,
-          200: 100,
-        },
-        totalRevenue: 0,
-        walletBalance: 20000,
-        transaction: 0,
-        wechselgeld: 100,
-        ausgabefach: [],
+   coinInventory: {
+      20: 100,
+      50: 100,
+      100: 100,
+      200: 100,
+    },
+    totalRevenue: 0,
+    walletBalance: 20000,
+    transaction: 0,
+    wechselgeld: 100,
+    ausgabefach: [],
+  );
+
+  /// Methode zum Kauf eines Produkts
+  void buy(Product product) {
+    if (canBuy(product)) {
+      int changeAmount = state.transaction - product.price;
+      List<int> changeCoins = calculateChange(changeAmount);
+      int totalChange = changeCoins.fold(0, (sum, coin) => sum + coin);
+
+      state = state.copyWith(
+        ausgabefach: [...state.ausgabefach, product],
+        wechselgeld: changeAmount,
+        totalRevenue: state.totalRevenue + product.price,
+        transactionHistory: [
+          ...state.transactionHistory,
+          {
+            'Produkt': product.name,
+            'Preis': (product.price / 100).toStringAsFixed(2),
+            'Zeit': DateTime.now().toString(),
+          }
+        ],
       );
 
-  StackManager();
+      // Produktmenge aktualisieren
+      final updatedProduct = product.copyWith(quantity: product.quantity - 1);
+      final updatedProducts = state.products
+          .map((p) => p.id == product.id ? updatedProduct : p)
+          .toList();
+      state = state.copyWith(products: updatedProducts);
 
-  /// Method to handle buying a product
-void buy(Product product) {
-  if (canBuy(product)) {
-    // Calculate change and update state
-    int changeAmount = state.transaction - product.price;
-    List<int> changeCoins = calculateChange(changeAmount);
-    int totalChange = changeCoins.fold(0, (sum, coin) => sum + coin);
+      // Wechselgeld zur Brieftasche hinzufügen
+      state = state.copyWith(walletBalance: state.walletBalance + totalChange);
 
-    state = state.copyWith(
-      ausgabefach: [...state.ausgabefach, product],
-      wechselgeld: changeAmount,
-      totalRevenue: state.totalRevenue + product.price,
-      transactionHistory: [
-        ...state.transactionHistory,
-        {
-          'Produkt': product.name,
-          'Preis': (product.price / 100).toStringAsFixed(2),
-          'Zeit': DateTime.now().toString()
-        }
-      ],
-    );
-
-    // Update product quantity
-    final updatedProduct = product.copyWith(quantity: product.quantity - 1);
-    final updatedProducts = state.products.map((p) => p.id == product.id ? updatedProduct : p).toList();
-    state = state.copyWith(products: updatedProducts);
-
-    // Add change back to wallet
-    state = state.copyWith(walletBalance: state.walletBalance + totalChange);
-
-    // Reset the transaction amount after purchase
-    resetTransaction(); // This will reset the displayed amount to 0
+      // Transaktionsbetrag nach dem Kauf zurücksetzen
+      resetTransaction();
+    }
   }
-}
 
-  /// Method to restock all coins in the machine to a default level
+  /// Methode, um alle Münzen auf einen Standardwert aufzufüllen
   void restockAllCoins() {
     final newCoins = <int, int>{};
-    for (final coin in allCoins) {
-      newCoins[coin.value] = 100; // Assuming 10 coins of each denomination by default
+    for (final coin in state.coinInventory.keys) {
+      newCoins[coin] = 100; // Annahme: 100 Münzen pro Wert
     }
     state = state.copyWith(coinInventory: newCoins);
   }
 
-  /// Method to restock a specific product by ID
+  /// Methode, um ein bestimmtes Produkt nach ID aufzufüllen
   void restockProduct(int productId, int amount) {
     final oldProduct = getProductById(productId);
     final newProduct = oldProduct.copyWith(
       quantity: oldProduct.quantity + amount,
     );
-    final newProducts = state.products.map((p) => p.id == productId ? newProduct : p).toList();
+    final newProducts = state.products
+        .map((p) => p.id == productId ? newProduct : p)
+        .toList();
     state = state.copyWith(products: newProducts);
   }
 
-  /// Utility to get a product by its ID
+  /// Hilfsfunktion, um ein Produkt anhand der ID zu erhalten
   Product getProductById(int productId) {
     return state.products.firstWhere(
       (product) => product.id == productId,
@@ -249,12 +250,12 @@ void buy(Product product) {
     );
   }
 
-  /// Utility method to reset the transaction
+  /// Hilfsfunktion, um die Transaktion zurückzusetzen
   void resetTransaction() {
     state = state.copyWith(transaction: 0);
   }
 
-  /// Method to reset the transaction and return the amount to the wallet
+  /// Methode, um die Transaktion zurückzusetzen und den Betrag zur Brieftasche zurückzugeben
   void resetTransactionAndReturnToWallet() {
     state = state.copyWith(
       walletBalance: state.walletBalance + state.transaction,
@@ -262,7 +263,7 @@ void buy(Product product) {
     );
   }
 
-  /// Method to check if the customer can afford the product and if change can be provided
+  /// Prüft, ob der Kunde das Produkt kaufen kann und ob Wechselgeld verfügbar ist
   bool canBuy(Product product) {
     return state.transaction >= product.price &&
            state.walletBalance >= 0 &&
@@ -270,53 +271,57 @@ void buy(Product product) {
            canGiveChange(state.transaction - product.price);
   }
 
-/// Method to calculate change based on the amount and available coin inventory
-List<int> calculateChange(int changeAmount) {
-  List<int> change = [];
-  int remainingAmount = changeAmount;
+  /// Methode zur Berechnung des Wechselgeldes auf Basis des Betrags und des Münzbestands
+  List<int> calculateChange(int changeAmount) {
+    List<int> change = [];
+    int remainingAmount = changeAmount;
 
-  // Festgelegte Münzwerte in absteigender Reihenfolge
-  List<int> coinValues = [200, 100, 50, 20];
+    // Festgelegte Münzwerte in absteigender Reihenfolge
+    List<int> coinValues = [200, 100, 50, 20];
 
-  // Durchlaufe jede Münzgröße von groß nach klein
-  for (var coinValue in coinValues) {
-    int availableCoins = state.coinInventory[coinValue] ?? 0;
+    // Durchlaufe jede Münzgröße von groß nach klein
+    for (var coinValue in coinValues) {
+      int availableCoins = state.coinInventory[coinValue] ?? 0;
 
-    // Nutze so viele Münzen wie möglich, ohne den verbleibenden Betrag zu überschreiten
-    while (remainingAmount >= coinValue && availableCoins > 0) {
-      remainingAmount -= coinValue;
-      availableCoins--;
-      change.add(coinValue);  // Münze zum Rückgabegeld hinzufügen
+      // Nutze so viele Münzen wie möglich, ohne den verbleibenden Betrag zu überschreiten
+      while (remainingAmount >= coinValue && availableCoins > 0) {
+        remainingAmount -= coinValue;
+        availableCoins--;
+        change.add(coinValue);  // Münze zum Rückgabegeld hinzufügen
+      }
+
+      // Aktualisiere den Münzbestand nach Verwendung
+      state.coinInventory[coinValue] = availableCoins;
     }
 
-    // Aktualisiere den Münzbestand nach Verwendung
-    state.coinInventory[coinValue] = availableCoins;
+    // Überprüfen, ob das exakte Wechselgeld zurückgegeben werden konnte
+    if (remainingAmount != 0) {
+      // Wenn kein exaktes Wechselgeld möglich ist, die Liste leeren und eine leere Liste zurückgeben
+      return [];
+    }
+
+    return change;
   }
 
-  // Überprüfen, ob das exakte Wechselgeld zurückgegeben werden konnte
-  if (remainingAmount != 0) {
-    // Wenn kein exaktes Wechselgeld möglich ist, die Liste leeren und eine leere Liste zurückgeben
-    return [];
-  }
-
-  return change;
-}
-
-  /// Checks if the machine can provide the exact change with the available coins
+  /// Prüft, ob der Automat das exakte Wechselgeld mit den verfügbaren Münzen zurückgeben kann
   bool canGiveChange(int change) {
     int remainingAmount = change;
-    List<int> coinValues = state.coinInventory.keys.toList();
-    for (var coinValue in coinValues) {
-      int coinCount = state.coinInventory[coinValue] ?? 0;
+    Map<int, int> tempCoinInventory = Map.from(state.coinInventory);
+
+    for (var coinValue in [200, 100, 50, 20]) {
+      int coinCount = tempCoinInventory[coinValue] ?? 0;
       while (remainingAmount >= coinValue && coinCount > 0) {
         remainingAmount -= coinValue;
         coinCount--;
       }
+      // Temporärer Münzbestand aktualisieren
+      tempCoinInventory[coinValue] = coinCount;
     }
+
     return remainingAmount == 0;
   }
 
-  /// Adds a coin to the transaction, deducting it from the wallet balance
+  /// Fügt eine Münze zur Transaktion hinzu und zieht den Betrag von der Brieftasche ab
   void addCoin(int value) {
     state = state.copyWith(
       walletBalance: state.walletBalance - value,
