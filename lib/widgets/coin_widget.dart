@@ -36,7 +36,7 @@ class CoinWidget extends ConsumerWidget {
             ),
             const SizedBox(height: 1), // Space between image and text
             Text(
-              'Coin ${(coin.value / 100).toStringAsFixed(2)} Ł',
+              ' ${(coin.value / 100).toStringAsFixed(2)} Ł',
               textAlign: TextAlign.center,
               style: GoogleFonts.tektur(
             fontSize: 12.0,
