@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snackautomat/managers/stack_manager.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../models/product.dart';
 
 class AdminScreen extends ConsumerWidget {
@@ -15,7 +16,10 @@ class AdminScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin-Bereich'),
+        title: Text(
+          'Admin-Bereich',
+          style: GoogleFonts.tektur(fontSize: 20),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -26,10 +30,14 @@ class AdminScreen extends ConsumerWidget {
               // Display Total Revenue
               Text(
                 'Gesamtumsatz: Ł ${(stack.totalRevenue / 100).toStringAsFixed(2)}',
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: GoogleFonts.tektur(fontSize: 20),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color.fromARGB(193, 10, 104, 10),
+                ),
                 onPressed: () {
                   stackManager.restockAllCoins();
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -41,9 +49,9 @@ class AdminScreen extends ConsumerWidget {
               const SizedBox(height: 20),
               
               // Display Coin Inventory
-              const Text(
+              Text(
                 'Münzbestand:',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: GoogleFonts.tektur(fontSize: 20),
               ),
               ListView.builder(
                 shrinkWrap: true,
@@ -62,9 +70,9 @@ class AdminScreen extends ConsumerWidget {
               const SizedBox(height: 20),
 
               // Display Product Inventory
-              const Text(
+              Text(
                 'Produktbestand:',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: GoogleFonts.tektur(fontSize: 20),
               ),
               ListView.builder(
                 shrinkWrap: true,
@@ -86,9 +94,9 @@ class AdminScreen extends ConsumerWidget {
               const SizedBox(height: 20),
 
               // Display Purchase History
-              const Text(
+              Text(
                 'Kaufhistorie:',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: GoogleFonts.tektur(fontSize: 20),
               ),
               stack.transactionHistory.isNotEmpty
                   ? ListView.builder(
@@ -102,10 +110,10 @@ class AdminScreen extends ConsumerWidget {
                         );
                       },
                     )
-                  : const Center(
+                  : Center(
                       child: Text(
                         'Keine Transaktionen vorhanden',
-                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                        style: GoogleFonts.tektur(fontSize: 20),
                       ),
                     ),
             ],

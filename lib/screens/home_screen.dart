@@ -114,6 +114,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   IconButton(
                     icon: const Icon(CupertinoIcons.multiply_square),
                     iconSize: 25.0,
+                    color: const Color.fromARGB(255, 255, 8, 0),
                     onPressed: () {
                       stackManager.resetTransactionAndReturnToWallet();
                     },
@@ -121,7 +122,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const SizedBox(height: 1),
                   const Text(
                     'Transaktion abbrechen',
-                    style: TextStyle(fontSize: 8),
+                    style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),

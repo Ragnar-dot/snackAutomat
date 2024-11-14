@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:snackautomat/managers/stack_manager.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AusgabeScreen extends ConsumerWidget {
   const AusgabeScreen({super.key});
@@ -23,12 +24,12 @@ class AusgabeScreen extends ConsumerWidget {
             // Display Wechselgeld
             Text(
               'Wechselgeld: Ł ${(stack.wechselgeld / 100).toStringAsFixed(2)}',
-              style: const TextStyle(fontSize: 20),
+              style: GoogleFonts.tektur(fontSize: 20),
+              
             ),
-            const SizedBox(height: 20),
-            const Text(
+            Text(
               'Ihre Produkte:',
-              style: TextStyle(fontSize: 20),
+              style: GoogleFonts.tektur(fontSize: 20),
             ),
             const SizedBox(height: 20),
             // Display all purchased products in `ausgabefach`
@@ -53,25 +54,27 @@ class AusgabeScreen extends ConsumerWidget {
                               const SizedBox(height: 10),
                               Text(
                                 product.name,
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                style: GoogleFonts.tektur(fontSize: 14),
                               ),
                               Text(
                                 'Preis: Ł ${(product.price / 100).toStringAsFixed(2)}',
-                                style: const TextStyle(fontSize: 14),
+                                style: GoogleFonts.tektur(fontSize: 12),
                               ),
                             ],
                           ),
                         );
                       },
                     )
-                  : const Center(
+                  : Center(
                       child: Text(
                         'Kein Produkt im Ausgabefach',
-                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                        style: GoogleFonts.tektur(fontSize: 15),
+                        
                       ),
                     ),
             ),
           ],
+
         ),
       ),
     );
