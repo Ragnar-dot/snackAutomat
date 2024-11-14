@@ -16,24 +16,27 @@ class DisplayWidget extends ConsumerWidget {
       padding: const EdgeInsets.all(1.0),
       child: Stack(
         children: [
-          Container(
-            padding: const EdgeInsets.all(5.0),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(0, 231, 231, 231).withOpacity(0.5),
-              borderRadius: BorderRadius.circular(1.0),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color.fromARGB(255, 81, 255, 0).withOpacity(0.2),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                  offset: const Offset(0,6), // changes position of shadow
-                ),
-              ],
+          CustomPaint(
+            painter: InnerShadowPainter(),
+            child: Container(
+              padding: const EdgeInsets.all(4.0),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(0, 231, 231, 231).withOpacity(0.5),
+                borderRadius: BorderRadius.circular(1.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color.fromARGB(34, 81, 255, 0).withOpacity(0.8),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, 8), // changes position of shadow
+                  ),
+                ],
+              ),
             ),
           ),
           Positioned.fill(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+              filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
               child: Container(
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(15, 31, 30, 30),
@@ -51,12 +54,32 @@ class DisplayWidget extends ConsumerWidget {
               'Betrag: ${(transactionAmount / 100).toStringAsFixed(2)}Ł',
               style: GoogleFonts.tektur(
                 fontSize: 18.0,
-                color: const Color.fromARGB(193, 10, 104, 10),
+                color: const Color.fromARGB(193, 0, 0, 0),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+class InnerShadowPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint shadowPaint = Paint()
+      ..color = const Color.fromARGB(255, 13, 170, 13).withOpacity(0.5)
+      ..maskFilter = MaskFilter.blur(BlurStyle.inner, 2);
+
+    final Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
+    final RRect outer = RRect.fromRectAndRadius(rect, Radius.circular(6.0));
+    final RRect inner = RRect.fromRectAndRadius(rect.deflate(4.0), Radius.circular(6.0));
+
+    canvas.drawDRRect(outer, inner, shadowPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }

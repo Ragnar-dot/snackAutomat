@@ -32,7 +32,7 @@ class CoinWidget extends ConsumerWidget {
           children: [
             Image.asset(
               coin.image,
-              height: 30,
+              height: 35,
             ),
             const SizedBox(height: 1), // Space between image and text
             Text(
