@@ -76,11 +76,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.65,  // Adjusted height
                child: GridView.builder(
-                padding: const EdgeInsets.all(6.0),
+                padding: const EdgeInsets.all(20.0),
                 itemCount: products.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.60,
+                  childAspectRatio: 0.70,
                 ),
                 itemBuilder: (context, index) {
                   return ProductWidget(
