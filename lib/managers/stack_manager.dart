@@ -193,19 +193,21 @@ class StackManager extends Notifier<StackState> {
       List<int> coinInventory = calculateChange(changeAmount);
       int totalChange = coinInventory.fold(0, (sum, coin) => sum + coin);
 
-      state = state.copyWith(
-        ausgabefach: [...state.ausgabefach, product],
-        wechselgeld: changeAmount,
-        totalRevenue: state.totalRevenue + product.price,
-        transactionHistory: [
-          ...state.transactionHistory,
-          {
-            'Produkt': product.name,
-            'Preis': (product.price / 100).toStringAsFixed(2),
-            'Zeit': DateTime.now().toString(),
-          }
-        ],
-      );
+    state = state.copyWith(
+      ausgabefach: [...state.ausgabefach, product],
+      wechselgeld: changeAmount,
+      totalRevenue: state.totalRevenue + product.price,
+      transactionHistory: [
+        ...state.transactionHistory,
+        {
+          'Produkt': product.name,
+          'Preis': (product.price / 100).toStringAsFixed(2),
+          'Zeit': DateTime.now().toString(),
+          'Wechselgeld': (totalChange / 100).toStringAsFixed(2),
+        }
+      ],
+      
+    );
 
       // Produktmenge aktualisieren
       final updatedProduct = product.copyWith(quantity: product.quantity - 1);
