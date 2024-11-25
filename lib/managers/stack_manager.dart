@@ -8,6 +8,7 @@ import '../models/product.dart';
 final refStack = NotifierProvider<StackManager, StackState>(() => StackManager());
 
 class StackManager extends Notifier<StackState> {
+  @override
   StackState build() => StackState(
         products: [
           Product(
@@ -189,8 +190,8 @@ class StackManager extends Notifier<StackState> {
   void buy(Product product) {
     if (canBuy(product)) {
       int changeAmount = state.transaction - product.price;
-      List<int> changeCoins = calculateChange(changeAmount);
-      int totalChange = changeCoins.fold(0, (sum, coin) => sum + coin);
+      List<int> coinInventory = calculateChange(changeAmount);
+      int totalChange = coinInventory.fold(0, (sum, coin) => sum + coin);
 
       state = state.copyWith(
         ausgabefach: [...state.ausgabefach, product],
