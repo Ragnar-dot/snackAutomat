@@ -106,8 +106,13 @@ class AdminScreen extends ConsumerWidget {
                       itemBuilder: (context, index) {
                         Map<String, dynamic> transaction = stack.transactionHistory[index];
                         return ListTile(
-                          title: Text(transaction.toString()),
-                        );
+                        title: Text(
+                              'Produkt: ${transaction['Produkt']}, '
+                              'Preis: ${transaction['Preis']} €, '
+                              'Zeit: ${transaction['Zeit']}, '
+                              'Wechselgeld: ${transaction['Wechselgeld']} €',
+                            ),
+                        );  
                       },
                     )
                   : Center(
