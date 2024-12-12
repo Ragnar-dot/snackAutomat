@@ -137,13 +137,13 @@ class ProductWidget extends ConsumerWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AusgabeScreen(),
+                                builder: (context) => const AusgabeScreen(),
                               ),
                             );
                           }
                         : null,
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
+                              backgroundColor: WidgetStateProperty.all<Color>(
                                 transactionAmount >= product.price && product.quantity > 0
                                     ? const Color.fromARGB(255, 253, 253, 253)  // Button background color when enabled
                                     : const Color.fromARGB(0, 255, 255, 255), // Button background color when disabled

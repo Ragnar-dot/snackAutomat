@@ -69,11 +69,11 @@ class InnerShadowPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Paint shadowPaint = Paint()
       ..color = const Color.fromARGB(255, 13, 170, 13).withOpacity(0.5)
-      ..maskFilter = MaskFilter.blur(BlurStyle.inner, 2);
+      ..maskFilter = const MaskFilter.blur(BlurStyle.inner, 2);
 
     final Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
-    final RRect outer = RRect.fromRectAndRadius(rect, Radius.circular(6.0));
-    final RRect inner = RRect.fromRectAndRadius(rect.deflate(4.0), Radius.circular(6.0));
+    final RRect outer = RRect.fromRectAndRadius(rect, const Radius.circular(6.0));
+    final RRect inner = RRect.fromRectAndRadius(rect.deflate(4.0), const Radius.circular(6.0));
 
     canvas.drawDRRect(outer, inner, shadowPaint);
   }

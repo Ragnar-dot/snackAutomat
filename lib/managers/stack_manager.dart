@@ -8,6 +8,7 @@ import '../models/product.dart';
 final refStack = NotifierProvider<StackManager, StackState>(() => StackManager());
 
 class StackManager extends Notifier<StackState> {
+  @override
   StackState build() => StackState(
         products: [
           Product(
